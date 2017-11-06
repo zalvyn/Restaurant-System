@@ -39,9 +39,6 @@ $.fn.numericInputExample = function () {
 		currentCell = element.find('td:focus'); 
 		console.log(currentCell.text());
 	});
-	
-	;
-
 
 	return this;
 };

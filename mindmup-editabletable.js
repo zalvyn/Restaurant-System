@@ -13,26 +13,47 @@ $.fn.editableTableWidget = function (options) {
 			ARROW_LEFT = 37, ARROW_UP = 38, ARROW_RIGHT = 39, ARROW_DOWN = 40, ENTER = 13, ESC = 27, TAB = 9,
 			element = $(this),
 			editor = activeOptions.editor.css('position', 'absolute').hide().appendTo(element.parent()),
+			editorSelect = activeOptions.editorSelect.css('position','absolute').hide().appendTo(element.parent()),
 			active,
 			showEditor = function (select) {
 				active = element.find('td:focus');
 				// prevent user press 0th colummn
 				if (active.index() == "0"){ 
-					
 					return;
-				}
+				// allow edting
 				if (active.length) {
-					editor.val(active.text())
+					if (active.index() == "1"){
+						editorSelect.children('option').remove();
+						var tempOptions = ["abc","def"], selected = false;
+						
+						for (var i=0; i<tempOptions.length; i++){
+							if(active.text() === tempOptions[i]){
+								selected = true;
+							}
+							editorSelect.append($('<option value="'+tempOptions[i]+'"'+ (selected?'selected':'') +'>'+ tempOptions[i]+'</options>' ));
+						}
+						
+						editor = editorSelect.val(active.text())
 						.removeClass('error')
-						.show()
-						.offset(active.offset())
+						.show()		
+						.offset(active.offset())	// move editor to correct place
 						.css(active.css(activeOptions.cloneProperties))
 						.width(active.width())
 						.height(active.height())
 						.focus();
+						
+					} else {
+						editor.val(active.text())
+						.removeClass('error')
+						.show()		// highlight text
+						.offset(active.offset())	// move editor to correct place
+						.css(active.css(activeOptions.cloneProperties))
+						.width(active.width())
+						.height(active.height())
+						.focus();
+					}
 					if (select) {
 						editor.select();
-						// console.log("editor select");
 					}
 				}
 			},
@@ -138,10 +159,14 @@ $.fn.editableTableWidget = function (options) {
 	});
 
 };
+// show default style of edit cell when enter edit mode
+
 $.fn.editableTableWidget.defaultOptions = {
 	cloneProperties: ['padding', 'padding-top', 'padding-bottom', 'padding-left', 'padding-right',
 					  'text-align', 'font', 'font-size', 'font-family', 'font-weight',
 					  'border', 'border-top', 'border-bottom', 'border-left', 'border-right'],
-	editor: $('<input>')
+	editor: $('<input>'),
+	editorSelect: $('<select>')
 };
-
+// limitlis/editable-table
+// <select><options value="a">a</options></select>
