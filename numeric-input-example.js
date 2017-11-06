@@ -55,20 +55,22 @@ $(document).ready(function(){
 		    header.push($(this).text());
 		});
 		// finding update row index
-		var updateRows = $(idChange).not(insertRows).get();
+		// var updateRows = $(idChange).not(insertRows).get();
+		var updateRows = $(idChange).get();
 		
-		console.log("insert="+insertRows);
 		console.log("idChange="+idChange);
 		console.log("updateRows:"+updateRows);
-		console.log("deleteRows:"+deleteRows);
+		// console.log("insert="+insertRows);
+		// console.log("deleteRows:"+deleteRows);
 		
 		$("#mainTable tbody tr td:nth-child(1)").each(function(){
 			// console.log($(this).text());
 		    if ( updateRows.includes( parseInt($(this).text()) )){
 		        match_update.push(index);
-		    } else if (insertRows.includes( parseInt($(this).text()) )) {
-				match_insert.push(index);
-		    }
+		    } 
+			// else if (insertRows.includes( parseInt($(this).text()) )) {
+			// 	match_insert.push(index);
+		    // }
 		    index++;
 		});
 		// console.log("match_update"+match_update);
@@ -81,13 +83,13 @@ $(document).ready(function(){
 		    });
 		    layer1.push(valueList);
 		});
-		match_insert.forEach(function(j, index,ar){
-		    valueList=[];
-		    $("#mainTable tbody tr:nth-child("+j+") td").each(function(){
-		        valueList.push($(this).text());
-		    });
-		    layer2.push(valueList);
-		});
+		// match_insert.forEach(function(j, index,ar){
+		//     valueList=[];
+		//     $("#mainTable tbody tr:nth-child("+j+") td").each(function(){
+		//         valueList.push($(this).text());
+		//     });
+		//     layer2.push(valueList);
+		// });
 
 		// layer1.forEach(function(val,index,ar){
 		//     console.log("1:"+val);
@@ -102,7 +104,7 @@ $(document).ready(function(){
 				url: "update.php",
 				data: { "valueList": layer1, "headerList": header, "operation": "update"},
 				success: function(data, txt, jqxhr){
-					alert(data);
+					// alert(data);
 					idChange=[];
 				}
 			}).done(function(msg){
@@ -111,44 +113,71 @@ $(document).ready(function(){
 				alert(error);
 			});
 		}
-		
-		if (match_insert.length>0){
-			$.ajax({
-				type: "POST",
-				url: "update.php",
-				data: { "valueList": layer2, "headerList": header, "operation": "insert"},
-				success: function(data, txt, jqxhr){
-					alert(data);
-					insertRows=[];
-				}
-			}).fail(function(xhr, status, error){
-				alert(error);
-			});
-		}
+		// 
+		// if (match_insert.length>0){
+		// 	$.ajax({
+		// 		type: "POST",
+		// 		url: "update.php",
+		// 		data: { "valueList": layer2, "headerList": header, "operation": "insert"},
+		// 		success: function(data, txt, jqxhr){
+		// 			alert(data);
+		// 			insertRows=[];
+		// 		}
+		// 	}).fail(function(xhr, status, error){
+		// 		alert(error);
+		// 	});
+		// }
 		
 	});
 	
+	function refreshTable(){
+		$.ajax({
+			type: "POST",
+			url: "index.php",
+			success: function(){
+				window.location = "index.php";
+			}
+		});
+	}
+	
 	// add button
 	$("#addBtn").click(function(){
-		var id = parseInt($("#mainTable tbody tr:last td:first").text())+1;
-		$("#mainTable tbody tr:last").after("<tr><td>"+id+"</td><td>a</td><td>a</td><td>a</td></tr>");
-		$('#mainTable').editableTableWidget().numericInputExample();
-		insertRows.push(id);
+		// var id = parseInt($("#mainTable tbody tr:last td:first").text())+1;
+		// insertRows.push(id);
+		$.ajax({
+			type: "POST",
+			url: "update.php",
+			data: { "valueList": [['','','']], "operation": "insert"},
+			success: function(data, txt, jqxhr){
+				// alert(data);
+				refreshTable();
+			}
+		}).fail(function(xhr, status, error){
+			alert(error);
+		});
+		
+		// $('#mainTable').editableTableWidget().numericInputExample();
 	});
 	
 	// delete button
 	$("#delBtn").click(function(){
-		// console.log($('#mainTable tbody tr td:focus').text());
 		var thisRow = currentCell.parent();
 		var id = parseInt(thisRow.find("td").first().text());
-		// $('#mainTable').editableTableWidget().numericInputExample();
-		deleteRows.push(id);
-		thisRow.remove();
+		
+		$.ajax({
+			type: "POST",
+			url: "update.php",
+			data: { "valueList": [id], "operation": "delete"},
+			success: function(data, txt, jqxhr){
+				// alert(data);
+				// refreshTable();
+				// console.log($('#mainTable tbody tr td:focus').text());
+				thisRow.remove();
+			}
+		}).fail(function(xhr, status, error){
+			alert(error);
+		});
 	});
 	
 });
-
-
-
-
 

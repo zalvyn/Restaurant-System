@@ -63,7 +63,7 @@ $dbname = "myDBPDO";
 try {
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $stmt = $conn->prepare("select id,firstname, lastname, email from MyGuests limit 4");
+    $stmt = $conn->prepare("select id,firstname, lastname, email from MyGuests");
     $stmt->execute();   // $stmt = PDOStatement class
 
     $result = $stmt->setFetchMode(PDO::FETCH_ASSOC); // return associated array

@@ -3,7 +3,7 @@
 
 
 $valueList = $_POST["valueList"];
-$headerList = $_POST["headerList"];
+// $headerList = $_POST["headerList"];
 $operation = $_POST["operation"];
 
 $servername="localhost";
@@ -29,39 +29,37 @@ try {
         echo "successfully updated " . $stmt->rowCount() . " rows";
         
     } else if ($operation=="insert"){
-        $stmt = $conn->prepare("insert into MyGuests (id, firstname, lastname, email)
-            values (:id, :firstname, :lastname, :email)");
-        $stmt->bindParam(':id', $id);
+        $stmt = $conn->prepare("insert into MyGuests (firstname, lastname, email)
+            values (:firstname, :lastname, :email)");
+        // $stmt->bindParam(':id', $id);
         $stmt->bindParam(':firstname', $fn);
         $stmt->bindParam(':lastname', $ln);
         $stmt->bindParam(':email', $email);
         
         foreach ($valueList as $value){
-            $id =  $value[0];
-            $fn = $value[1];
-            $ln = $value[2];
-            $email = $value[3];
+            // $id =  $value[0];
+            $fn = $value[0];
+            $ln = $value[1];
+            $email = $value[2];
             $stmt->execute();
         }
 
-        echo "success insert";
+        echo $valueList." success insert";
+        
     } else if ($operation == "delete"){
         $sql = "delete from MyGuests where id=?";
         $stmt = $conn->prepare($sql);
         
-        foreach ($valueList as $value){
-            $stmt->execute($value);
-        }
-        echo "deleted successfully";
+        // foreach ($valueList as $value){
+            $stmt->execute($valueList);
+        // }
+        echo $valueList." deleted successfully";
     }
-
 
 } catch (PDOException $e){
     echo $e->getMessage();
 }
 $conn = null;
-
-
 
 ?>
 

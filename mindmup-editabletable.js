@@ -16,7 +16,7 @@ $.fn.editableTableWidget = function (options) {
 			active,
 			showEditor = function (select) {
 				active = element.find('td:focus');
-				// prevent user press nth colummn
+				// prevent user press 0th colummn
 				if (active.index() == "0"){ 
 					
 					return;
