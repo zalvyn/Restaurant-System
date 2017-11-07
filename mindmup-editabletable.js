@@ -3,47 +3,97 @@
 $.fn.editableTableWidget = function (options) {
 	'use strict';
 	return $(this).each(function () {
+
+		function bindEvents(){
+			// event occur when element loses focus
+			editor.blur(function () {
+				setActiveText();
+				editor.hide();
+			}).keydown(function (e) { // different operation on cells by keyboard
+				if (e.which === ENTER) {
+					setActiveText();
+					editor.hide();
+					active.focus();
+					e.preventDefault();
+					e.stopPropagation();
+				} else if (e.which === ESC) {
+					editor.val(active.text());
+					e.preventDefault();
+					e.stopPropagation();
+					editor.hide();
+					active.focus();
+				} else if (e.which === TAB) {
+					active.focus();
+				} else if (this.selectionEnd - this.selectionStart === this.value.length) {
+					var possibleMove = movement(active, e.which);
+					if (possibleMove.length > 0) {
+						possibleMove.focus();
+						e.preventDefault();
+						e.stopPropagation();
+					}
+				}
+			})
+			.on('input paste', function () {
+				var evt = $.Event('validate');
+				active.trigger(evt, editor.val());
+				if (evt.result === false) {
+					editor.addClass('error');
+				} else {
+					editor.removeClass('error');
+				}
+			});
+		}
+
 		var buildDefaultOptions = function () {
 				// extend: merge content of two object to first object
 				var opts = $.extend({}, $.fn.editableTableWidget.defaultOptions);
-				opts.editor = opts.editor.clone();
+				opts.editorText = opts.editorText.clone();
+				opts.editorSelect = opts.editorSelect.clone();
 				return opts;
 			},
 			activeOptions = $.extend(buildDefaultOptions(), options),
 			ARROW_LEFT = 37, ARROW_UP = 38, ARROW_RIGHT = 39, ARROW_DOWN = 40, ENTER = 13, ESC = 27, TAB = 9,
 			element = $(this),
-			editor = activeOptions.editor.css('position', 'absolute').hide().appendTo(element.parent()),
+			editor,
+			editorText = activeOptions.editorText.css('position', 'absolute').hide().appendTo(element.parent()),
 			editorSelect = activeOptions.editorSelect.css('position','absolute').hide().appendTo(element.parent()),
 			active,
 			showEditor = function (select) {
 				active = element.find('td:focus');
 				// prevent user press 0th colummn
-				if (active.index() == "0"){ 
+				if (active.index() == "0"){
 					return;
+				}
 				// allow edting
 				if (active.length) {
 					if (active.index() == "1"){
 						editorSelect.children('option').remove();
 						var tempOptions = ["abc","def"], selected = false;
-						
+
 						for (var i=0; i<tempOptions.length; i++){
 							if(active.text() === tempOptions[i]){
 								selected = true;
 							}
 							editorSelect.append($('<option value="'+tempOptions[i]+'"'+ (selected?'selected':'') +'>'+ tempOptions[i]+'</options>' ));
 						}
-						
+
 						editor = editorSelect.val(active.text())
 						.removeClass('error')
-						.show()		
+						.show()
 						.offset(active.offset())	// move editor to correct place
-						.css(active.css(activeOptions.cloneProperties))
-						.width(active.width())
-						.height(active.height())
+						.width(active.outerWidth())
+						.height(active.outerHeight())
 						.focus();
-						
+						// .css(active.css(activeOptions.cloneProperties))
+						bindEvents();
+
+						// console.log('width='+active.width());
+						// console.log('outerwidth='+active.outerWidth());
+
 					} else {
-						editor.val(active.text())
+						// element.find('td:focus').autocomplete({source:['a','b','c']});
+
+						editor = editorText.val(active.text())
 						.removeClass('error')
 						.show()		// highlight text
 						.offset(active.offset())	// move editor to correct place
@@ -51,10 +101,12 @@ $.fn.editableTableWidget = function (options) {
 						.width(active.width())
 						.height(active.height())
 						.focus();
+						bindEvents();
+						if (select) {
+							editor.select();
+						}
 					}
-					if (select) {
-						editor.select();
-					}
+
 				}
 			},
 			setActiveText = function () { // after leaving cell
@@ -62,7 +114,7 @@ $.fn.editableTableWidget = function (options) {
 					evt = $.Event('change'),
 					originalContent;
 				// if the change is invalid, recover original content
-				if (active.text() === text || editor.hasClass('error')) {
+				if (active.text().trim() === text || editor.hasClass('error')) {
 					return true;
 				}
 				originalContent = active.html(); // replace
@@ -84,43 +136,9 @@ $.fn.editableTableWidget = function (options) {
 				}
 				return [];
 			};
-		// event occur when element loses focus
-		editor.blur(function () {
-			setActiveText();
-			editor.hide();
-		}).keydown(function (e) { // different operation on cells by keyboard
-			if (e.which === ENTER) {
-				setActiveText();
-				editor.hide();
-				active.focus();
-				e.preventDefault();
-				e.stopPropagation();
-			} else if (e.which === ESC) {
-				editor.val(active.text());
-				e.preventDefault();
-				e.stopPropagation();
-				editor.hide();
-				active.focus();
-			} else if (e.which === TAB) {
-				active.focus();
-			} else if (this.selectionEnd - this.selectionStart === this.value.length) {
-				var possibleMove = movement(active, e.which);
-				if (possibleMove.length > 0) {
-					possibleMove.focus();
-					e.preventDefault();
-					e.stopPropagation();
-				}
-			}
-		})
-		.on('input paste', function () {
-			var evt = $.Event('validate');
-			active.trigger(evt, editor.val());
-			if (evt.result === false) {
-				editor.addClass('error');
-			} else {
-				editor.removeClass('error');
-			}
-		});
+
+
+
 		// element.on('click keypress dblclick', showEditor)
 		element.on('click keypress dblclick', function(){
 			// console.log("show editor first");
@@ -150,7 +168,7 @@ $.fn.editableTableWidget = function (options) {
 		element.find('td').prop('tabindex', 1);
 
 		$(window).on('resize', function () {
-			if (editor.is(':visible')) {
+			if (editor && editor.is(':visible')) {
 				editor.offset(active.offset())
 				.width(active.width())
 				.height(active.height());
@@ -165,7 +183,8 @@ $.fn.editableTableWidget.defaultOptions = {
 	cloneProperties: ['padding', 'padding-top', 'padding-bottom', 'padding-left', 'padding-right',
 					  'text-align', 'font', 'font-size', 'font-family', 'font-weight',
 					  'border', 'border-top', 'border-bottom', 'border-left', 'border-right'],
-	editor: $('<input>'),
+	editorText: $('<input>'),
+	// editorSelect: $('<input list="productName">')
 	editorSelect: $('<select>')
 };
 // limitlis/editable-table

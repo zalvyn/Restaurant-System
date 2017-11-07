@@ -12,7 +12,7 @@ $.fn.numericInputExample = function () {
 
 	element.find('td').off().on('change', function (evt) { // when cell change
 		// console.log("when cell change");
-		
+
 		var cell = $(this),	column = cell.index();
 		var id = parseInt($(this).parent().find("td").first().text());
 		idChange.push(id);
@@ -36,8 +36,8 @@ $.fn.numericInputExample = function () {
 			return !!value && value.trim().length > 0 && !!value.match(re);
 		}
 	}).on('click', function(){
-		currentCell = element.find('td:focus'); 
-		console.log(currentCell.text());
+		currentCell = element.find('td:focus');
+		// console.log(currentCell.text());
 	});
 
 	return this;
@@ -54,17 +54,17 @@ $(document).ready(function(){
 		// finding update row index
 		// var updateRows = $(idChange).not(insertRows).get();
 		var updateRows = $(idChange).get();
-		
-		console.log("idChange="+idChange);
-		console.log("updateRows:"+updateRows);
+
+		// console.log("idChange="+idChange);
+		// console.log("updateRows:"+updateRows);
 		// console.log("insert="+insertRows);
 		// console.log("deleteRows:"+deleteRows);
-		
+
 		$("#mainTable tbody tr td:nth-child(1)").each(function(){
 			// console.log($(this).text());
 		    if ( updateRows.includes( parseInt($(this).text()) )){
 		        match_update.push(index);
-		    } 
+		    }
 			// else if (insertRows.includes( parseInt($(this).text()) )) {
 			// 	match_insert.push(index);
 		    // }
@@ -72,7 +72,7 @@ $(document).ready(function(){
 		});
 		// console.log("match_update"+match_update);
 		// console.log("match_insert"+match_insert);
-		
+
 		match_update.forEach(function(j, index,ar){
 		    valueList=[];
 		    $("#mainTable tbody tr:nth-child("+j+") td").each(function(){
@@ -102,6 +102,7 @@ $(document).ready(function(){
 				data: { "valueList": layer1, "headerList": header, "operation": "update"},
 				success: function(data, txt, jqxhr){
 					// alert(data);
+					alert("You have successfully updated.");
 					idChange=[];
 				}
 			}).done(function(msg){
@@ -110,7 +111,7 @@ $(document).ready(function(){
 				alert(error);
 			});
 		}
-		// 
+		//
 		// if (match_insert.length>0){
 		// 	$.ajax({
 		// 		type: "POST",
@@ -124,9 +125,9 @@ $(document).ready(function(){
 		// 		alert(error);
 		// 	});
 		// }
-		
+
 	});
-	
+
 	function refreshTable(){
 		$.ajax({
 			type: "POST",
@@ -136,7 +137,7 @@ $(document).ready(function(){
 			}
 		});
 	}
-	
+
 	// add button
 	$("#addBtn").click(function(){
 		// var id = parseInt($("#mainTable tbody tr:last td:first").text())+1;
@@ -146,21 +147,21 @@ $(document).ready(function(){
 			url: "update.php",
 			data: { "valueList": [['','','']], "operation": "insert"},
 			success: function(data, txt, jqxhr){
-				// alert(data);
+				// alert("You have successfully added.");
 				refreshTable();
 			}
 		}).fail(function(xhr, status, error){
 			alert(error);
 		});
-		
+
 		// $('#mainTable').editableTableWidget().numericInputExample();
 	});
-	
+
 	// delete button
 	$("#delBtn").click(function(){
 		var thisRow = currentCell.parent();
 		var id = parseInt(thisRow.find("td").first().text());
-		
+
 		$.ajax({
 			type: "POST",
 			url: "update.php",
@@ -175,6 +176,6 @@ $(document).ready(function(){
 			alert(error);
 		});
 	});
-	
+
 });
 

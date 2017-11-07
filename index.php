@@ -72,7 +72,7 @@ try {
         echo $v;
     }
 
-    echo "success";
+    // echo "success";
 
 } catch (PDOException $e){
     echo $e->getMessage();
@@ -89,7 +89,11 @@ $conn = null;
 <button type="button" id="updateBtn">Update</button><br>
 <button type="button" id="addBtn">Add Row</button><br>
 <button type="button" id="delBtn">Delete Row</button>
-
+<datalist id="productName">
+    <option value="Drink">Drink</option>
+    <option value="Sides">Sides</option>
+    <option value="Noodle">Noodle</option>
+</datalist>
 
 <script>
   $('#mainTable').editableTableWidget().numericInputExample().find('td:first').focus();
