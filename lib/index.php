@@ -5,10 +5,10 @@
     <title>Tiny editable jQuery Bootstrap spreadsheet from MindMup</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="keywords" content="opensource jquery bootstrap editable table spreadsheet" />
-    <meta name="description" content="This tiny jQuery bootstrap plugin turns any table into an editable spreadsheet" />
-    <link rel="apple-touch-icon" href="https://d1g6a398qq2djm.cloudfront.net/img/apple-touch-icon.png" />
-    <link rel="shortcut icon" href="https://d1g6a398qq2djm.cloudfront.net/img/favicon.ico" />
+    <!-- <meta name="keywords" content="opensource jquery bootstrap editable table spreadsheet" />
+    <meta name="description" content="This tiny jQuery bootstrap plugin turns any table into an editable spreadsheet" /> -->
+    <!-- <link rel="apple-touch-icon" href="https://d1g6a398qq2djm.cloudfront.net/img/apple-touch-icon.png" /> -->
+    <!-- <link rel="shortcut icon" href="https://d1g6a398qq2djm.cloudfront.net/img/favicon.ico" /> -->
     <link href="external/google-code-prettify/prettify.css" rel="stylesheet">
     <!-- <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet"> -->
     <!-- <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-responsive.min.css" rel="stylesheet"> -->

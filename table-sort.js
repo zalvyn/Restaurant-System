@@ -4,27 +4,30 @@ function columnSort(n){
     var ref = $("#mainTable thead tr th:nth-child("+(n+1)+")");
     var icon = $("#mainTable thead tr th:nth-child("+(n+1)+") #asc");
     // console.log(ref.attr("value"));
-    $("#mainTable thead tr th #asc").attr("class","");
+    $("#mainTable thead tr th #asc").attr("src","");
     switch (ref.attr("value")) {
         case '2':
             dir = "asc";
             $("#mainTable thead tr th").attr("value","0");
             ref.attr("value",1);
-            icon.attr("class","glyphicon glyphicon-menu-up");
+            icon.attr("src","icon/arrow-up.svg");
             break;
         case '1':
             dir = "desc";
             $("#mainTable thead tr th").attr("value","0");
             ref.attr("value",2);
-            icon.attr("class","glyphicon glyphicon-menu-down");
+            icon.attr("src","icon/arrow-down.svg");
             break;
         default:
             dir = "asc";
             $("#mainTable thead tr th").attr("value","0");
             ref.attr("value",1);
-            icon.attr("class","glyphicon glyphicon-menu-up");
+            icon.attr("src","icon/arrow-up.svg");
             break;
     }
+    // icon.attr("class","glyphicon glyphicon-menu-up");
+    // icon.attr("class","glyphicon glyphicon-menu-up");
+    // icon.attr("class","glyphicon glyphicon-menu-down");
 
     switching = true;
     while(switching){

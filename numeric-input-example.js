@@ -17,7 +17,7 @@ $.fn.numericInputExample = function () {
 		var id = parseInt($(this).parent().find("td").first().text());
 		idChange.push(id);
 		// console.log("idchange"+idChange);
-		// console.log("diff="+ $(idChange).not(insertRows).get() );
+		// console.log("diff="+ $(idChange).not(insertRows).get() ); 
 		// console.log("insert="+insertRows);
 
 	}).on('validate', function (evt, value) { // validate before change
