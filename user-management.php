@@ -24,7 +24,7 @@
     <a class="navbar-brand mr-auto" href="#">Home</a>
 
     <form class="form-inline"> <!-- mt-2 mt-md-0 -->
-      <input id="search" class="form-control mr-sm-2 search" type="text" placeholder="Search by username" aria-label=" Search">
+      <input id="search" class="form-control mr-sm-2 no_focus" type="text" placeholder="Search by username" aria-label=" Search">
       <button class="btn btn-outline-success" type="submit">Search</button> <!--  my-2 my-sm-0 -->
     </form>
     <button type="button" class="btn btn-warning"><img src="icon/log-out.svg"> Logout </button>
@@ -53,12 +53,14 @@
               <th onclick="columnSort(5)" value="0">Password</th>
               <th onclick="columnSort(6)" value="0">Contact Number</th>
               <th onclick="columnSort(7)" value="0">Position</th>
+              <th></th>
         </tr></thead>
          <tbody>
 <?php
 
-// echo "<table style='border: solid 1px black;'>";
-// echo "<tr><th>ID</th><th>Firstname</th><th>Lastname</th><th>Age</th><th>Username</th><th>Password</th><th>Contact Number</th><th>Position</th></tr>";
+// $limitRows = $_POST["limitRows"];
+// $fieldList = $_POST["fieldList"];
+// $valueList = $_POST["valueList"];
 
 class TableRows extends RecursiveIteratorIterator {
     function __construct($it){
@@ -71,7 +73,8 @@ class TableRows extends RecursiveIteratorIterator {
         echo "<tr>";
     }
     function endChildren(){
-        echo "</tr>"."\n";
+        echo "<td><button type='button' id='deleteBtn' class='no_focus btn' style='background-color:transparent'><img src='icon/delete.png'></button></td></tr>\n";
+        // echo "</tr>\n";
     }
 }
 
@@ -83,7 +86,22 @@ $dbname = "myDBPDO";
 try {
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $stmt = $conn->prepare("select ID, Fname, LName, Age, Username, Password, `Contact Number`, Position from User");
+    $sql = "select ID, Fname, LName, Age, Username, Password, `Contact Number`, Position from User";
+    /*if is_null($limitRows){
+      $sql = $sql." limit $limitRows;";
+     } else {
+      $sql = $sql.";";
+    }*/
+    // dynamic filter by field
+    // $tmp=[];
+    // if (!is_null($fieldList) && !is_null($valueList)) {
+    //   foreach ($fieldList as $index=>$field ){
+    //     array_push($tmp, "$field=".$valueList[$index]);
+    //   }
+    //   $sql = $sql."where ".implode(", ", $tmp).";";
+    // }
+    
+    $stmt = $conn->prepare($sql);
     $stmt->execute();   // $stmt = PDOStatement class
 
     $result = $stmt->setFetchMode(PDO::FETCH_ASSOC); // return associated array

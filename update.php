@@ -23,11 +23,11 @@ try {
         // $sql = "update User set FName=?, LName=?, Age=?, Username=?, `Contact Number`=?, Position=? where id=?;";
         $columns = implode("=?, ", $headerList);
         $sql = "UPDATE $target_table SET $columns=? WHERE $idField=?;";
-        
         $stmt = $conn->prepare($sql);
+        
         echo $valueList;
         foreach ($valueList as $value) {
-            $tmp = $value;
+            $tmp = array_map('mysql_real_escape_string', $value);
             $id = array_shift($tmp);
             array_push($tmp, $id);
             // print_r($tmp);
