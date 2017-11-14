@@ -1,9 +1,12 @@
 <?php
-// phpinfo();
-
+// update: valueList[[id1, ..],[id2, ..]]
+// insertEmpty: idField, target_table
+// delete: only delete 1 row at a time
 
 $valueList = $_POST["valueList"];
-// $headerList = $_POST["headerList"];
+$target_table = $_POST["target_table"];
+$headerList = $_POST["headerList"];
+$idField = $_POST["idField"];
 $operation = $_POST["operation"];
 
 $servername="localhost";
@@ -11,12 +14,16 @@ $username = "user1";
 $password = "123456";
 $dbname = "myDBPDO";
 
+
 try {
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     if ($operation=="update"){
-        $sql = "update User set FName=?, LName=?, Age=?, Username=?, Password=?, `Contact Number`=?, Position=? where id=?;";
+        // $sql = "update User set FName=?, LName=?, Age=?, Username=?, `Contact Number`=?, Position=? where id=?;";
+        $columns = implode("=?, ", $headerList);
+        $sql = "UPDATE $target_table SET $columns=? WHERE $idField=?;";
+        
         $stmt = $conn->prepare($sql);
         echo $valueList;
         foreach ($valueList as $value) {
@@ -28,31 +35,41 @@ try {
         }
         echo "successfully updated " . $stmt->rowCount() . " rows";
 
-    } else if ($operation=="insert"){
-        $stmt = $conn->prepare("insert into MyGuests (firstname, lastname, email)
-            values (:firstname, :lastname, :email)");
-        // $stmt->bindParam(':id', $id);
-        $stmt->bindParam(':firstname', $fn);
-        $stmt->bindParam(':lastname', $ln);
-        $stmt->bindParam(':email', $email);
+    } else if ($operation=="insertEmpty"){
+        // $stmt = $conn->prepare("insert into MyGuests (firstname, lastname, email)
+        //     values (:firstname, :lastname, :email)");
+        // $stmt->bindParam(':firstname', $fn);
+        // $stmt->bindParam(':lastname', $ln);
+        // $stmt->bindParam(':email', $email);
 
-        foreach ($valueList as $value){
-            // $id =  $value[0];
-            $fn = $value[0];
-            $ln = $value[1];
-            $email = $value[2];
-            $stmt->execute();
-        }
+        // foreach ($valueList as $value){
+        //     $fn = $value[0];
+        //     $ln = $value[1];
+        //     $email = $value[2];
+        //     $stmt->execute();
+        // }
+        $sql = "INSERT INTO `$target_table` (`$idField`) VALUES (NULL)";
+        $conn->exec($sql);
 
         echo $valueList." success insert";
 
-    } else if ($operation == "delete"){
-        $sql = "delete from MyGuests where id=?";
-        $stmt = $conn->prepare($sql);
+    } else if ($operation=="insert"){
+      
+      $columns = implode(", ", $headerList );
+      
+      foreach ($valueList as $row) {
+        $escaped_values = array_map('mysql_real_escape_string', $row );
+        $values = implode(", ", $escaped_values);
+        $sql = "INSERT INTO `$target_table` ($columns) VALUES ($values)";
+        $conn->exec($sql);
+      }
+    }
+    
+    else if ($operation == "delete"){
+        $values = implode(", ", $valueList);
+        $sql = "delete from `$target_table` where $idField in ($values)";
+        $conn->exec($sql);
 
-        // foreach ($valueList as $value){
-            $stmt->execute($valueList);
-        // }
         echo $valueList." deleted successfully";
     }
 
