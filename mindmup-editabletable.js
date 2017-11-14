@@ -2,6 +2,7 @@
 // for changing td to editable cell
 $.fn.editableTableWidget = function (options) {
 	'use strict';
+
 	return $(this).each(function () {
 
 		function bindEvents(){

@@ -4,25 +4,36 @@ function columnSort(n){
     var ref = $("#mainTable thead tr th:nth-child("+(n+1)+")");
     var icon = $("#mainTable thead tr th:nth-child("+(n+1)+") #asc");
     // console.log(ref.attr("value"));
-    $("#mainTable thead tr th #asc").attr("src","");
+    // $("#mainTable thead tr th #asc").attr("src","");
+    var img = $("#mainTable thead tr th");
+    // img.removeAttr("src");
+    // img.empty();
+    // $("#mainTable thead tr th #asc").css({"left","100"});
     switch (ref.attr("value")) {
         case '2':
             dir = "asc";
             $("#mainTable thead tr th").attr("value","0");
             ref.attr("value",1);
-            icon.attr("src","icon/arrow-up.svg");
+            ref.value()
+            // ref.add("<img width='30px' height='30px' src='icon/arrow-up.svg'>");
+            // icon.attr("src","icon/arrow-up.svg");
+            // icon.css({"display","inline"});
             break;
         case '1':
             dir = "desc";
             $("#mainTable thead tr th").attr("value","0");
             ref.attr("value",2);
-            icon.attr("src","icon/arrow-down.svg");
+            // ref.add("<img width='30px' height='30px' src='icon/arrow-down.svg'>");
+            // icon.attr("src","icon/arrow-down.svg");
+            // icon.css({"display","inline"});
             break;
         default:
             dir = "asc";
             $("#mainTable thead tr th").attr("value","0");
             ref.attr("value",1);
-            icon.attr("src","icon/arrow-up.svg");
+            // ref.add("<img width='30px' height='30px' src='icon/arrow-up.svg'>");
+            // icon.attr("src","icon/arrow-up.svg");
+            // icon.css({"display","inline"});
             break;
     }
     // icon.attr("class","glyphicon glyphicon-menu-up");

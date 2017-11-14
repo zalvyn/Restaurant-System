@@ -5,17 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, shrink-to-fit=no">
     <!-- <meta name="description" content="">
     <meta name="author" content=""> -->
-    
-    <title>Signin Template for Bootstrap</title>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="user-man.css" rel="stylesheet">
-    
+
+    <title>Restaurant System</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="user-man.css" rel="stylesheet" type="text/css" />
+
     <script src="lib/jquery-3.2.1.min.js"></script>
     <script src="mindmup-editabletable.js"></script>
     <script src="numeric-input-example.js"></script>
     <script src="table-sort.js"></script>
-    <script src="operation.js"></script>
-    
+
 </head>
 
 <body>
@@ -25,7 +24,7 @@
     <a class="navbar-brand mr-auto" href="#">Home</a>
 
     <form class="form-inline"> <!-- mt-2 mt-md-0 -->
-      <input class="form-control mr-sm-2" type="text" placeholder="Search by username" aria-label=" Search">
+      <input class="form-control mr-sm-2 search" type="text" placeholder="Search by username" aria-label=" Search">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </form>
     <button type="button" class="btn btn-warning"><img src="icon/log-out.svg"> Logout </button>
@@ -38,14 +37,22 @@
   <div class="hero-unit">
      <table id="mainTable" class="table table-striped">
          <thead><tr>
-            <th onclick="columnSort(0)" value="0">ID <img id="asc"></th>
-             <th onclick="columnSort(1)" value="0">Firstname <img id="asc"></th>
-             <th onclick="columnSort(2)" value="0">Lastname <img id="asc"></th>
-             <th onclick="columnSort(3)" value="0">Age<img id="asc"></th>
-             <th onclick="columnSort(4)" value="0">Username <img id="asc"></th>
-             <th onclick="columnSort(5)" value="0">Password<img id="asc"></th>
-             <th onclick="columnSort(6)" value="0">Contact Number<img id="asc"></th>
-             <th onclick="columnSort(7)" value="0">Position<img id="asc"></th>
+            <!-- <th onclick="columnSort(0)" value="0">ID <img id="asc" width="30px" height="30px"></th>
+             <th onclick="columnSort(1)" value="0">Firstname <img id="asc" width="30px" height="30px"></th>
+             <th onclick="columnSort(2)" value="0">Lastname <img id="asc" width="30px" height="30px"></th>
+             <th onclick="columnSort(3)" value="0">Age<img id="asc" width="30px" height="30px"></th>
+             <th onclick="columnSort(4)" value="0">Username <img id="asc" width="30px" height="30px"></th>
+             <th onclick="columnSort(5)" value="0">Password<img id="asc" width="30px" height="30px"></th>
+             <th onclick="columnSort(6)" value="0">Contact Number<img id="asc" width="30px" height="30px"></th>
+             <th onclick="columnSort(7)" value="0">Position<img id="asc" width="30px" height="30px"></th> -->
+             <th onclick="columnSort(0)" value="0">ID</th>
+              <th onclick="columnSort(1)" value="0">Firstname</th>
+              <th onclick="columnSort(2)" value="0">Lastname</th>
+              <th onclick="columnSort(3)" value="0">Age</th>
+              <th onclick="columnSort(4)" value="0">Username</th>
+              <th onclick="columnSort(5)" value="0">Password</th>
+              <th onclick="columnSort(6)" value="0">Contact Number</th>
+              <th onclick="columnSort(7)" value="0">Position</th>
         </tr></thead>
          <tbody>
 <?php

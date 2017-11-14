@@ -16,11 +16,10 @@ $.fn.numericInputExample = function () {
 		var cell = $(this),	column = cell.index();
 		var id = parseInt($(this).parent().find("td").first().text());
 		idChange.push(id);
-		// console.log("idchange"+idChange);
-		// console.log("diff="+ $(idChange).not(insertRows).get() ); 
-		// console.log("insert="+insertRows);
+		// console.log("idchange= "+idChange);
 
 	}).on('validate', function (evt, value) { // validate before change
+		// console.log("validate");
 		var cell = $(this), column = cell.index();
 		// console.log("validate="+column);
 		if (column === 1 || column===2) { // for column name
@@ -55,7 +54,7 @@ $(document).ready(function(){
 		// var updateRows = $(idChange).not(insertRows).get();
 		var updateRows = $(idChange).get();
 
-		// console.log("idChange="+idChange);
+		console.log("late idChange="+idChange);
 		// console.log("updateRows:"+updateRows);
 		// console.log("insert="+insertRows);
 		// console.log("deleteRows:"+deleteRows);
@@ -70,7 +69,7 @@ $(document).ready(function(){
 		    // }
 		    index++;
 		});
-		// console.log("match_update"+match_update);
+		console.log("match_update"+match_update);
 		// console.log("match_insert"+match_insert);
 
 		match_update.forEach(function(j, index,ar){
@@ -88,9 +87,9 @@ $(document).ready(function(){
 		//     layer2.push(valueList);
 		// });
 
-		// layer1.forEach(function(val,index,ar){
-		//     console.log("1:"+val);
-		// });
+		layer1.forEach(function(val,index,ar){
+		    console.log("1:"+val);
+		});
 		// layer2.forEach(function(val,index,ar){
 		//     console.log("2:"+val);
 		// });
@@ -101,8 +100,8 @@ $(document).ready(function(){
 				url: "update.php",
 				data: { "valueList": layer1, "headerList": header, "operation": "update"},
 				success: function(data, txt, jqxhr){
-					// alert(data);
-					alert("You have successfully updated.");
+					alert(data);
+					// alert("You have successfully updated.");
 					idChange=[];
 				}
 			}).done(function(msg){
