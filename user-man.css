@@ -20,7 +20,7 @@ input:not(.search) {
 }
 
 h2 {
-	margin-top: 80px;
+	margin-top: 90px;
 	width: 100%;
 	text-align: center;
 }
@@ -36,7 +36,20 @@ body .container .hero-unit #mainTable thead tr th #asc {
 }*/
 #mainTable td + td, #mainTable th + th {
 	text-align: right;
+}
 
+#search {
+	margin-right: 10px;
+}
+
+@media (max-width: 576px) {
+	#search {
+		width: 200px;
+	}
+}
+
+#mainTable {
+	margin-bottom: 70px;
 }
 
 /*table.scrollable thead tr, table.scrollable tfoot tr  {
@@ -71,8 +84,8 @@ body > .container {
   padding: 20px 15px 0;
 }
 
-.footer {
-  position: absolute;
+footer {
+  position: fixed;
   bottom: 0;
   width: 100%;
   height: 60px;
@@ -80,7 +93,7 @@ body > .container {
   background-color: #f5f5f5;
 }
 
-.footer > .container {
+footer > .container {
   padding-right: 10px;
   padding-left: 10px;
 }

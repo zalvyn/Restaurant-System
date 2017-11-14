@@ -24,8 +24,8 @@
     <a class="navbar-brand mr-auto" href="#">Home</a>
 
     <form class="form-inline"> <!-- mt-2 mt-md-0 -->
-      <input class="form-control mr-sm-2 search" type="text" placeholder="Search by username" aria-label=" Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      <input id="search" class="form-control mr-sm-2 search" type="text" placeholder="Search by username" aria-label=" Search">
+      <button class="btn btn-outline-success" type="submit">Search</button> <!--  my-2 my-sm-0 -->
     </form>
     <button type="button" class="btn btn-warning"><img src="icon/log-out.svg"> Logout </button>
   </nav>
