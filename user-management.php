@@ -12,7 +12,7 @@
 
     <script src="lib/jquery-3.2.1.min.js"></script>
     <script src="mindmup-editabletable.js"></script>
-    <script src="numeric-input-example.js"></script>
+    <script src="user-man-input.js"></script>
     <script src="table-sort.js"></script>
 
 </head>
@@ -21,7 +21,7 @@
 
 <header>
   <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <a class="navbar-brand mr-auto" href="#">Home</a>
+    <a class="navbar-brand mr-auto" href="index.php">Home</a>
 
     <form class="form-inline"> <!-- mt-2 mt-md-0 -->
       <input id="search" class="form-control mr-sm-2 no_focus" type="text" placeholder="Search by username" aria-label=" Search">
@@ -50,7 +50,7 @@
               <th onclick="columnSort(2)" value="0">Lastname</th>
               <th onclick="columnSort(3)" value="0">Age</th>
               <th onclick="columnSort(4)" value="0">Username</th>
-              <th onclick="columnSort(5)" value="0">Password</th>
+              <!-- <th onclick="columnSort(5)" value="0">Password</th> -->
               <th onclick="columnSort(6)" value="0">Contact Number</th>
               <th onclick="columnSort(7)" value="0">Position</th>
               <th></th>
@@ -63,17 +63,25 @@
 // $valueList = $_POST["valueList"];
 
 class TableRows extends RecursiveIteratorIterator {
+    private $index;
     function __construct($it){
         parent::__construct($it, self::LEAVES_ONLY);
     }
     function current(){
-        return "<td>".parent::current()."</td>";
+        if ($index==0){
+          $str = "<td class='no_focus'>";
+        } else {
+          $str = "<td>";
+        }
+        $index += 1;
+        return $str.parent::current()."</td>";
     }
     function beginChildren(){
+        $index = 0;
         echo "<tr>";
     }
     function endChildren(){
-        echo "<td><button type='button' id='deleteBtn' class='no_focus btn' style='background-color:transparent'><img src='icon/delete.png'></button></td></tr>\n";
+        echo "<td class='no_focus'><button type='button' class='delBtn no_focus btn' style='background-color:transparent'><img src='icon/delete.png'></button></td></tr>\n";
         // echo "</tr>\n";
     }
 }
@@ -86,7 +94,7 @@ $dbname = "myDBPDO";
 try {
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $sql = "select ID, Fname, LName, Age, Username, Password, `Contact Number`, Position from User";
+    $sql = "select ID, Fname, LName, Age, Username, `Contact Number`, Position from User";
     /*if is_null($limitRows){
       $sql = $sql." limit $limitRows;";
      } else {
@@ -100,7 +108,7 @@ try {
     //   }
     //   $sql = $sql."where ".implode(", ", $tmp).";";
     // }
-    
+
     $stmt = $conn->prepare($sql);
     $stmt->execute();   // $stmt = PDOStatement class
 
@@ -143,7 +151,8 @@ $conn = null;
 </footer>
 
 <script>
-$('#mainTable').editableTableWidget().numericInputExample().find('td:first').focus();
+// $('#mainTable').editableTableWidget().numericInputExample().find('td:first').focus();
+$('#mainTable').editableTableWidget().numericInputExample();
 </script>
 
 </body>

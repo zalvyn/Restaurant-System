@@ -62,14 +62,14 @@ $.fn.editableTableWidget = function (options) {
 			showEditor = function (select) {
 				active = element.find('td:focus');
 				// prevent user press 0th colummn
-				if (active.index() == "0"){
+				if (active.index() == "1" || active.index()=="7"){
 					return;
 				}
 				// allow edting
 				if (active.length) {
-					if (active.index() == "1"){
+					if (active.index() == "6"){
 						editorSelect.children('option').remove();
-						var tempOptions = ["abc","def"], selected = false;
+						var tempOptions = ["Waiter","Waitress","Cook","Cashier","Manager"], selected = false;
 
 						for (var i=0; i<tempOptions.length; i++){
 							if(active.text() === tempOptions[i]){
@@ -82,11 +82,23 @@ $.fn.editableTableWidget = function (options) {
 						.removeClass('error')
 						.show()
 						.offset(active.offset())	// move editor to correct place
-						.width(active.outerWidth())
-						.height(active.outerHeight())
+						.css('height',active.outerHeight())
+						.css('width',active.outerWidth())
 						.focus();
-						// .css(active.css(activeOptions.cloneProperties))
+
+						// $(function(){
+						// 	if($.browser.webkit){
+						// 		alert('hi');
+						// 		editor = editorSelect.css('background-color','white');
+						// 	}
+						// });
+
+						// .css(active.css(activeOptions.cloneProperties));
 						bindEvents();
+
+						// .width(active.outerWidth())
+						// .height(active.outerHeight())
+						console.log(active.outerHeight())
 
 						// console.log('width='+active.width());
 						// console.log('outerwidth='+active.outerWidth());
@@ -99,9 +111,14 @@ $.fn.editableTableWidget = function (options) {
 						.show()		// highlight text
 						.offset(active.offset())	// move editor to correct place
 						.css(active.css(activeOptions.cloneProperties))
-						.width(active.width())
-						.height(active.height())
+						.css('height',active.outerHeight())
+						.css('width',active.outerWidth())
 						.focus();
+
+
+
+						// .width(active.width())
+						// .height(active.height())
 						bindEvents();
 						if (select) {
 							editor.select();
@@ -141,7 +158,7 @@ $.fn.editableTableWidget = function (options) {
 
 
 		// element.on('click keypress dblclick', showEditor)
-		element.on('click keypress dblclick', function(){
+		element.on('click keypress dblclick', function(e){
 			// console.log("show editor first");
 			// console.log(element);
 			showEditor(true);	// true: select, false: not select
@@ -165,6 +182,8 @@ $.fn.editableTableWidget = function (options) {
 				e.preventDefault();
 			}
 		});
+
+		$('.no_focus').css('cursor','');
 
 		element.find('td').prop('tabindex', 1);
 

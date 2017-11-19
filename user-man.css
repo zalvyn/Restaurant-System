@@ -38,6 +38,18 @@ body .container .hero-unit #mainTable thead tr th #asc {
 	text-align: right;
 }
 
+#mainTable td {
+	vertical-align: middle;
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+select {
+	background-color: white;
+	border: none;
+	text-align: right;
+}
+
 #search {
 	margin-right: 10px;
 }

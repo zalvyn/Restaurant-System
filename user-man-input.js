@@ -1,6 +1,11 @@
 /* this is an example for validation and change events */
 // $.fn is jquery's namespace; $.fn.abc() is extend abc function for jquery, so that every jquery instance can use. eg. $("#div").abc();
-var idChange = [], insertRows=[], deleteRows=[], element={};
+/**
+deleted = (oldIDs-beforeChange)-(newIDs-afterChange)
+inserted = (newIDs-afterChange)-(oldIDs-beforeChange)
+updated = idChange-beforeChange-afterChange
+**/
+var idChange = [], insertRows=[], deleteRows=[], oldIDs=[], newIDs=[],beforeChange=[],afterChange=[], element={};
 var associativeArray = {};
 var currentCell = {};
 
@@ -38,6 +43,12 @@ $.fn.numericInputExample = function () {
 		currentCell = element.find('td:focus');
 		// console.log(currentCell.text());
 	});
+
+	/** get old IDs **/
+	element.find('td:first-child').each(function(){
+		oldIDs.push($(this).text())
+	});
+	console.log(oldIDs);
 
 	return this;
 };
@@ -110,6 +121,7 @@ $(document).ready(function(){
 				alert(error);
 			});
 		}
+
 		//
 		// if (match_insert.length>0){
 		// 	$.ajax({
@@ -157,24 +169,32 @@ $(document).ready(function(){
 	});
 
 	// delete button
-	$("#delBtn").click(function(){
-		var thisRow = currentCell.parent();
-		var id = parseInt(thisRow.find("td").first().text());
+	$(".delBtn").click(function(){
+		console.log($(this).parent().parent().text());
+		// var thisRow = currentCell.parent();
+		// var id = parseInt(thisRow.find("td").first().text());
 
-		$.ajax({
-			type: "POST",
-			url: "update.php",
-			data: { "valueList": [id], "operation": "delete"},
-			success: function(data, txt, jqxhr){
-				// alert(data);
-				// refreshTable();
-				// console.log($('#mainTable tbody tr td:focus').text());
-				thisRow.remove();
-			}
-		}).fail(function(xhr, status, error){
-			alert(error);
-		});
+		alert('you sure to delete?');
+
+		// $.ajax({
+		// 	type: "POST",
+		// 	url: "update.php",
+		// 	data: { "valueList": [id], "operation": "delete"},
+		// 	success: function(data, txt, jqxhr){
+		// 		// alert(data);
+		// 		// refreshTable();
+		// 		// console.log($('#mainTable tbody tr td:focus').text());
+		// 		thisRow.remove();
+		// 	}
+		// }).fail(function(xhr, status, error){
+		// 	alert(error);
+		// });
 	});
 
 });
 
+function GoHome(link){
+	if (idChange.length>0){
+		alert('You have unsaved changes. Are you sure to exit?')
+	}
+}
