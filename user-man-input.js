@@ -54,6 +54,18 @@ $.fn.numericInputExample = function () {
 };
 
 $(document).ready(function(){
+	
+	// filter words
+	$("header nav form #search").on("keyup", function(){
+		var value = $(this).val().toLowerCase();
+		// console.log('value:'+value);
+		$("#mainTable tbody tr").filter(function(){
+			console.log($(this).find('td:nth-child(5)').text());
+			$(this).toggle($(this).find('td:nth-child(5)').text().toLowerCase().indexOf(value) > -1);
+		});
+	});
+	
+	
 	// update row
 	$("#updateBtn").click(function(){
 		var asso = {}, valueList=[], updateData=[], layer2=[], header=[], index=1, updateRowNo=[], match_insert=[];
@@ -131,18 +143,18 @@ $(document).ready(function(){
 		});
 	}
 
-	// $("#addBtn").click(function(){
-	// 	$.ajax({
-	// 		type: "POST",
-	// 		url: "update.php",
-	// 		data: {"operation": "insertEmpty","target_table":"staff","idName":"staffID"},
-	// 		success: function(data, txt, jqxhr){
-	// 			// alert("You have successfully added.");
-	// 			refreshTable();
-	// 		}
-	// 	}).fail(function(xhr, status, error){
-	// 		alert(error);
-	// 	});
+	$("#addBtn").click(function(){
+		$.ajax({
+			type: "POST",
+			url: "update.php",
+			data: {"operation": "insertEmpty","target_table":"staff","idName":"staffID"},
+			success: function(data, txt, jqxhr){
+				// alert("You have successfully added.");
+				refreshTable();
+			}
+		}).fail(function(xhr, status, error){
+			alert(error);
+		});
 	
 		// $('#mainTable').editableTableWidget().numericInputExample();
 	// });
@@ -152,19 +164,19 @@ $(document).ready(function(){
 	// 	console.log( a.text() ); //.not(".no_focus")
 	// });
 
-	header=['FirstName','LastName','Age','UserName','ContactNumber','Position','Gender']
-	$("#addBtn").click(function(){
-		$.ajax({
-			type: "POST",
-			url: "update.php",
-			data: {"operation": "insert","target_table":"staff","idName":"staffID","headerList":header,"valueList":[['Ken','if',30,'hello','21321453','Cook','F']],"idList":""},
-			success: function(data, txt, jqxhr){
-				refreshTable();
-			}
-		}).fail(function(xhr, status, error){
-			alert(error);
-		});
-	});
+	// header=['FirstName','LastName','Age','UserName','ContactNumber','Position','Gender']
+	// $("#addBtn").click(function(){
+	// 	$.ajax({
+	// 		type: "POST",
+	// 		url: "update.php",
+	// 		data: {"operation": "insert","target_table":"staff","idName":"staffID","headerList":header,"valueList":[['Ken','af',31,'hello','21321453','Cook','F'],['Ken','bf',32,'hello','21321453','Cook','F']],"idList":""},
+	// 		success: function(data, txt, jqxhr){
+	// 			refreshTable();
+	// 		}
+	// 	}).fail(function(xhr, status, error){
+	// 		alert(error);
+	// 	});
+	// });
 
 	var delID="";
 	// delete button
@@ -173,8 +185,8 @@ $(document).ready(function(){
 		var thisRow = $(this).parent().parent();
 		delID = thisRow.find("td").first().text();
 		$("#deleteModal").modal('show');
-		$("#OK").click(function(){
-			console.log('delID:'+delID);
+		$("#deleteModal #OK").click(function(){
+			// console.log('delID:'+delID);
 			$.ajax({
 				type: "POST",
 				url: "update.php",
@@ -188,12 +200,37 @@ $(document).ready(function(){
 		});
 	});
 	
+	/** change password **/
+	$(".keyBtn").click(function(){
+		// console.log($(this).parent().parent().text());
+		var thisRow = $(this).parent().parent();
+		keyID = thisRow.find("td").first().text();
+		$("#passwordModal").modal('show');
+		$("#passwordModal #pwd").val('');
+		// console.log('keyID:'+keyID);
+		$("#passwordModal #OK").click(function(){
+			var pwd = $("#passwordModal #pwd").val();
+			// console.log("pwd:"+pwd);
+			$.ajax({
+				type: "POST",
+				url: "update.php",
+				data: { "operation": "update","target_table":"staff","idName":"staffID","idList":[keyID],"headerList":["PassWord"],"valueList":[[pwd]]},
+				success: function(data, txt, jqxhr){
+					alert(data);
+					// alert(txt);
+				}
+			}).fail(function(xhr, status, error){
+				alert(error);
+			});
+		});
+	});
 	
 
+	});
 });
 
 function GoHome(link){
 	if (idChange.length>0){
-		alert('You have unsaved changes. Are you sure to exit?')
+		alert('You have unsaved changes. Are you sure to exit?');
 	}
 }

@@ -23,16 +23,15 @@ try {
     if ($operation=="update"){
         // $sql = "update User set FName=?, LName=?, Age=?, Username=?, `Contact Number`=?, Position=? where id=?;";
         $columns = implode("=?, ", $headerList);
-        $sql = "UPDATE $target_table SET $columns=? WHERE $idName=?;";
+        $sql = "UPDATE $target_table SET ".$columns."=? WHERE $idName=?;";
         $stmt = $conn->prepare($sql);
-
-        echo $valueList;
-        echo $columns;
+        // echo $sql;
         foreach ($valueList as $index=>$value) {
-            array_push($value, $idList[$index]);
+            array_push($value, strval($idList[$index]));
+            // print_r($value);
             $stmt->execute($value);
         }
-        echo "successfully updated " . $stmt->rowCount() . " rows";
+        // echo "successfully updated " . $stmt->rowCount() . " rows";
 
     } else if ($operation=="insertEmpty"){
         $sql = "INSERT INTO `$target_table` (`$idName`) VALUES (NULL)";

@@ -86,7 +86,7 @@ class TableRows extends RecursiveIteratorIterator {
         echo "<tr>";
     }
     function endChildren(){
-        echo "<td class='no_focus'><button type='button' class='btn' style='background-color:transparent'><img src='icon/key.png'/></button></td>
+        echo "<td class='no_focus'><button type='button' class='keyBtn btn' style='background-color:transparent'><img src='icon/key.png'/></button></td>
         <td class='no_focus'><button type='button' class='delBtn btn' style='background-color:transparent'><img src='icon/delete.png'></button></td></tr>\n";
         // echo "</tr>\n";
     }
@@ -166,6 +166,25 @@ $conn = null;
       </div>
       <div class="modal-body">
         <p>Are you sure to delete this row?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="OK" data-dismiss="modal">OK</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="passwordModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">New Password</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <label for="pwd">Please enter new password:</label>
+        <input type="password" class="form-control no_focus" id="pwd">
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" id="OK" data-dismiss="modal">OK</button>
