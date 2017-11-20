@@ -61,8 +61,11 @@ $.fn.editableTableWidget = function (options) {
 			active,
 			showEditor = function (select) {
 				active = element.find('td:focus');
-				// prevent user press 0th colummn
-				if (active.index() == "1" || active.index()=="7"){
+				// prevent user press columns with no_focus class
+				// if (active.index() == "0" || active.index()=="7"){
+				// 	return;
+				// }
+				if (active.hasClass("no_focus")){
 					return;
 				}
 				// allow edting
@@ -95,13 +98,6 @@ $.fn.editableTableWidget = function (options) {
 
 						// .css(active.css(activeOptions.cloneProperties));
 						bindEvents();
-
-						// .width(active.outerWidth())
-						// .height(active.outerHeight())
-						console.log(active.outerHeight())
-
-						// console.log('width='+active.width());
-						// console.log('outerwidth='+active.outerWidth());
 
 					} else {
 						// element.find('td:focus').autocomplete({source:['a','b','c']});

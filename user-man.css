@@ -44,6 +44,16 @@ body .container .hero-unit #mainTable thead tr th #asc {
 	padding-bottom: 0;
 }
 
+#mainTable td button {
+	padding-left: 0;
+	padding-right: 0;
+}
+
+#mainTable td button img{
+	padding-left: 0;
+	padding-right: 0;
+}
+
 select {
 	background-color: white;
 	border: none;

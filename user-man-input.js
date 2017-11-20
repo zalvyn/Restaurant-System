@@ -21,7 +21,7 @@ $.fn.numericInputExample = function () {
 		var cell = $(this),	column = cell.index();
 		var id = parseInt($(this).parent().find("td").first().text());
 		idChange.push(id);
-		// console.log("idchange= "+idChange);
+		console.log("idchange= "+idChange);
 
 	}).on('validate', function (evt, value) { // validate before change
 		// console.log("validate");
@@ -48,7 +48,7 @@ $.fn.numericInputExample = function () {
 	element.find('td:first-child').each(function(){
 		oldIDs.push($(this).text())
 	});
-	console.log(oldIDs);
+	// console.log(oldIDs);
 
 	return this;
 };
@@ -56,13 +56,7 @@ $.fn.numericInputExample = function () {
 $(document).ready(function(){
 	// update row
 	$("#updateBtn").click(function(){
-		var asso = {}, valueList=[], layer1=[], layer2=[], header=[], index=1, match_update=[], match_insert=[];
-		// var mySet = new Set(idChange);
-		$("#mainTable thead tr th").each(function(){
-		    header.push($(this).text());
-		});
-		// finding update row index
-		// var updateRows = $(idChange).not(insertRows).get();
+		var asso = {}, valueList=[], updateData=[], layer2=[], header=[], index=1, updateRowNo=[], match_insert=[];
 		var updateRows = $(idChange).get();
 
 		console.log("late idChange="+idChange);
@@ -73,54 +67,42 @@ $(document).ready(function(){
 		$("#mainTable tbody tr td:nth-child(1)").each(function(){
 			// console.log($(this).text());
 		    if ( updateRows.includes( parseInt($(this).text()) )){
-		        match_update.push(index);
+		        updateRowNo.push(index);
 		    }
-			// else if (insertRows.includes( parseInt($(this).text()) )) {
-			// 	match_insert.push(index);
-		    // }
 		    index++;
 		});
-		console.log("match_update"+match_update);
+		// console.log("updateRowNo"+updateRowNo);
 		// console.log("match_insert"+match_insert);
 
-		match_update.forEach(function(j, index,ar){
+		updateRowNo.forEach(function(j, index,ar){
 		    valueList=[];
-		    $("#mainTable tbody tr:nth-child("+j+") td").each(function(){
+		    $("#mainTable tbody tr:nth-child("+j+") td:not(.no_focus)").each(function(){
 		        valueList.push($(this).text());
 		    });
-		    layer1.push(valueList);
+		    updateData.push(valueList);
 		});
-		// match_insert.forEach(function(j, index,ar){
-		//     valueList=[];
-		//     $("#mainTable tbody tr:nth-child("+j+") td").each(function(){
-		//         valueList.push($(this).text());
-		//     });
-		//     layer2.push(valueList);
-		// });
 
-		layer1.forEach(function(val,index,ar){
+		updateData.forEach(function(val,index,ar){
 		    console.log("1:"+val);
 		});
-		// layer2.forEach(function(val,index,ar){
-		//     console.log("2:"+val);
-		// });
 
-		if (match_update.length>0){
-			$.ajax({
-				type: "POST",
-				url: "update.php",
-				data: { "valueList": layer1, "headerList": header, "operation": "update"},
-				success: function(data, txt, jqxhr){
-					alert(data);
-					// alert("You have successfully updated.");
-					idChange=[];
-				}
-			}).done(function(msg){
-				// console.log("done");
-			}).fail(function(xhr, status, error){
-				alert(error);
-			});
-		}
+		// header=['FirstName','LastName','Age','UserName','ContactNumber','Gender']
+		// if (updateRowNo.length>0){
+		// 	$.ajax({
+		// 		type: "POST",
+		// 		url: "update.php",
+		// 		data: { "valueList": updateData,"target_table":"staff","headerList": header,"idField":idChange, "operation": "update"},
+		// 		success: function(data, txt, jqxhr){
+		// 			alert(data);
+		// 			// alert("You have successfully updated.");
+		// 			idChange=[];
+		// 		}
+		// 	}).done(function(msg){
+		// 		// console.log("done");
+		// 	}).fail(function(xhr, status, error){
+		// 		alert(error);
+		// 	});
+		// }
 
 		//
 		// if (match_insert.length>0){
@@ -150,23 +132,29 @@ $(document).ready(function(){
 	}
 
 	// add button
-	$("#addBtn").click(function(){
-		// var id = parseInt($("#mainTable tbody tr:last td:first").text())+1;
-		// insertRows.push(id);
-		$.ajax({
-			type: "POST",
-			url: "update.php",
-			data: { "valueList": [['','','']], "operation": "insert"},
-			success: function(data, txt, jqxhr){
-				// alert("You have successfully added.");
-				refreshTable();
-			}
-		}).fail(function(xhr, status, error){
-			alert(error);
-		});
+	// $("#addBtn").click(function(){
+	// 	// var id = parseInt($("#mainTable tbody tr:last td:first").text())+1;
+	// 	// insertRows.push(id);
+	// 	$.ajax({
+	// 		type: "POST",
+	// 		url: "update.php",
+	// 		data: { "valueList": [['','','']], "operation": "insert"},
+	// 		success: function(data, txt, jqxhr){
+	// 			// alert("You have successfully added.");
+	// 			refreshTable();
+	// 		}
+	// 	}).fail(function(xhr, status, error){
+	// 		alert(error);
+	// 	});
+	//
+	// 	// $('#mainTable').editableTableWidget().numericInputExample();
+	// });
 
-		// $('#mainTable').editableTableWidget().numericInputExample();
+	$("#addBtn").click(function(){
+		var a = $("#mainTable tbody tr:nth-child(3) td:not(.no_focus)");
+		console.log( a.text() ); //.not(".no_focus")
 	});
+
 
 	// delete button
 	$(".delBtn").click(function(){

@@ -63,25 +63,26 @@
 // $valueList = $_POST["valueList"];
 
 class TableRows extends RecursiveIteratorIterator {
-    private $index;
+    private static $index=0;
     function __construct($it){
         parent::__construct($it, self::LEAVES_ONLY);
     }
     function current(){
-        if ($index==0){
+        if (self::$index==0){
           $str = "<td class='no_focus'>";
         } else {
           $str = "<td>";
         }
-        $index += 1;
+        self::$index++;
         return $str.parent::current()."</td>";
     }
     function beginChildren(){
-        $index = 0;
+        self::$index=0;
         echo "<tr>";
     }
     function endChildren(){
-        echo "<td class='no_focus'><button type='button' class='delBtn no_focus btn' style='background-color:transparent'><img src='icon/delete.png'></button></td></tr>\n";
+        echo "<td class='no_focus'><button type='button' class='btn' style='background-color:transparent'><img src='icon/key.png'/></button></td>
+        <td class='no_focus'><button type='button' class='delBtn btn' style='background-color:transparent'><img src='icon/delete.png'></button></td></tr>\n";
         // echo "</tr>\n";
     }
 }

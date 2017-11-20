@@ -12,7 +12,7 @@ $operation = $_POST["operation"];
 $servername="localhost";
 $username = "user1";
 $password = "123456";
-$dbname = "myDBPDO";
+$dbname = "Restaurant";
 
 
 try {
@@ -24,7 +24,7 @@ try {
         $columns = implode("=?, ", $headerList);
         $sql = "UPDATE $target_table SET $columns=? WHERE $idField=?;";
         $stmt = $conn->prepare($sql);
-        
+
         echo $valueList;
         foreach ($valueList as $value) {
             $tmp = array_map('mysql_real_escape_string', $value);
@@ -54,9 +54,9 @@ try {
         echo $valueList." success insert";
 
     } else if ($operation=="insert"){
-      
+
       $columns = implode(", ", $headerList );
-      
+
       foreach ($valueList as $row) {
         $escaped_values = array_map('mysql_real_escape_string', $row );
         $values = implode(", ", $escaped_values);
@@ -64,7 +64,7 @@ try {
         $conn->exec($sql);
       }
     }
-    
+
     else if ($operation == "delete"){
         $values = implode(", ", $valueList);
         $sql = "delete from `$target_table` where $idField in ($values)";
