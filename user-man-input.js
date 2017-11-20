@@ -86,23 +86,23 @@ $(document).ready(function(){
 		    console.log("1:"+val);
 		});
 
-		// header=['FirstName','LastName','Age','UserName','ContactNumber','Gender']
-		// if (updateRowNo.length>0){
-		// 	$.ajax({
-		// 		type: "POST",
-		// 		url: "update.php",
-		// 		data: { "valueList": updateData,"target_table":"staff","headerList": header,"idField":idChange, "operation": "update"},
-		// 		success: function(data, txt, jqxhr){
-		// 			alert(data);
-		// 			// alert("You have successfully updated.");
-		// 			idChange=[];
-		// 		}
-		// 	}).done(function(msg){
-		// 		// console.log("done");
-		// 	}).fail(function(xhr, status, error){
-		// 		alert(error);
-		// 	});
-		// }
+		header=['FirstName','LastName','Age','UserName','ContactNumber','Position','Gender']
+		if (updateRowNo.length>0){
+			$.ajax({
+				type: "POST",
+				url: "update.php",
+				data: { "valueList": updateData,"target_table":"staff","headerList": header,"idList":idChange,"idName":"staffID", "operation": "update"},
+				success: function(data, txt, jqxhr){
+					alert(data);
+					// alert("You have successfully updated.");
+					idChange=[];
+				}
+			}).done(function(msg){
+				// console.log("done");
+			}).fail(function(xhr, status, error){
+				alert(error);
+			});
+		}
 
 		//
 		// if (match_insert.length>0){
@@ -124,21 +124,18 @@ $(document).ready(function(){
 	function refreshTable(){
 		$.ajax({
 			type: "POST",
-			url: "index.php",
+			url: "user-management.php",
 			success: function(){
-				window.location = "index.php";
+				window.location = "user-management.php";
 			}
 		});
 	}
 
-	// add button
 	// $("#addBtn").click(function(){
-	// 	// var id = parseInt($("#mainTable tbody tr:last td:first").text())+1;
-	// 	// insertRows.push(id);
 	// 	$.ajax({
 	// 		type: "POST",
 	// 		url: "update.php",
-	// 		data: { "valueList": [['','','']], "operation": "insert"},
+	// 		data: {"operation": "insertEmpty","target_table":"staff","idName":"staffID"},
 	// 		success: function(data, txt, jqxhr){
 	// 			// alert("You have successfully added.");
 	// 			refreshTable();
@@ -146,38 +143,52 @@ $(document).ready(function(){
 	// 	}).fail(function(xhr, status, error){
 	// 		alert(error);
 	// 	});
-	//
-	// 	// $('#mainTable').editableTableWidget().numericInputExample();
+	
+		// $('#mainTable').editableTableWidget().numericInputExample();
 	// });
 
+	// $("#addBtn").click(function(){
+	// 	var a = $("#mainTable tbody tr:nth-child(3) td:not(.no_focus)");
+	// 	console.log( a.text() ); //.not(".no_focus")
+	// });
+
+	header=['FirstName','LastName','Age','UserName','ContactNumber','Position','Gender']
 	$("#addBtn").click(function(){
-		var a = $("#mainTable tbody tr:nth-child(3) td:not(.no_focus)");
-		console.log( a.text() ); //.not(".no_focus")
+		$.ajax({
+			type: "POST",
+			url: "update.php",
+			data: {"operation": "insert","target_table":"staff","idName":"staffID","headerList":header,"valueList":[['Ken','if',30,'hello','21321453','Cook','F']],"idList":""},
+			success: function(data, txt, jqxhr){
+				refreshTable();
+			}
+		}).fail(function(xhr, status, error){
+			alert(error);
+		});
 	});
 
-
+	var delID="";
 	// delete button
 	$(".delBtn").click(function(){
-		console.log($(this).parent().parent().text());
-		// var thisRow = currentCell.parent();
-		// var id = parseInt(thisRow.find("td").first().text());
-
-		alert('you sure to delete?');
-
-		// $.ajax({
-		// 	type: "POST",
-		// 	url: "update.php",
-		// 	data: { "valueList": [id], "operation": "delete"},
-		// 	success: function(data, txt, jqxhr){
-		// 		// alert(data);
-		// 		// refreshTable();
-		// 		// console.log($('#mainTable tbody tr td:focus').text());
-		// 		thisRow.remove();
-		// 	}
-		// }).fail(function(xhr, status, error){
-		// 	alert(error);
-		// });
+		// console.log($(this).parent().parent().text());
+		var thisRow = $(this).parent().parent();
+		delID = thisRow.find("td").first().text();
+		$("#deleteModal").modal('show');
+		$("#OK").click(function(){
+			console.log('delID:'+delID);
+			$.ajax({
+				type: "POST",
+				url: "update.php",
+				data: { "valueList": [delID], "operation": "delete","target_table":"staff","idName":"staffID"},
+				success: function(data, txt, jqxhr){
+					thisRow.remove();
+				}
+			}).fail(function(xhr, status, error){
+				alert(error);
+			});
+		});
 	});
+	
+	
 
 });
 

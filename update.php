@@ -1,12 +1,13 @@
 <?php
 // update: valueList[[id1, ..],[id2, ..]]
-// insertEmpty: idField, target_table
+// insertEmpty: idList, target_table
 // delete: only delete 1 row at a time
 
 $valueList = $_POST["valueList"];
 $target_table = $_POST["target_table"];
 $headerList = $_POST["headerList"];
-$idField = $_POST["idField"];
+$idList = $_POST["idList"];
+$idName = $_POST["idName"];
 $operation = $_POST["operation"];
 
 $servername="localhost";
@@ -22,33 +23,20 @@ try {
     if ($operation=="update"){
         // $sql = "update User set FName=?, LName=?, Age=?, Username=?, `Contact Number`=?, Position=? where id=?;";
         $columns = implode("=?, ", $headerList);
-        $sql = "UPDATE $target_table SET $columns=? WHERE $idField=?;";
+        $sql = "UPDATE $target_table SET $columns=? WHERE $idName=?;";
         $stmt = $conn->prepare($sql);
 
         echo $valueList;
-        foreach ($valueList as $value) {
-            $tmp = array_map('mysql_real_escape_string', $value);
-            $id = array_shift($tmp);
-            array_push($tmp, $id);
-            // print_r($tmp);
-            $stmt->execute($tmp);
+        echo $columns;
+        foreach ($valueList as $index=>$value) {
+            array_push($value, $idList[$index]);
+            $stmt->execute($value);
         }
         echo "successfully updated " . $stmt->rowCount() . " rows";
 
     } else if ($operation=="insertEmpty"){
-        // $stmt = $conn->prepare("insert into MyGuests (firstname, lastname, email)
-        //     values (:firstname, :lastname, :email)");
-        // $stmt->bindParam(':firstname', $fn);
-        // $stmt->bindParam(':lastname', $ln);
-        // $stmt->bindParam(':email', $email);
-
-        // foreach ($valueList as $value){
-        //     $fn = $value[0];
-        //     $ln = $value[1];
-        //     $email = $value[2];
-        //     $stmt->execute();
-        // }
-        $sql = "INSERT INTO `$target_table` (`$idField`) VALUES (NULL)";
+        $sql = "INSERT INTO `$target_table` (`$idName`) VALUES (NULL)";
+        echo $sql;
         $conn->exec($sql);
 
         echo $valueList." success insert";
@@ -58,16 +46,16 @@ try {
       $columns = implode(", ", $headerList );
 
       foreach ($valueList as $row) {
-        $escaped_values = array_map('mysql_real_escape_string', $row );
-        $values = implode(", ", $escaped_values);
+        $values = "'".implode("', '", $row)."'";
         $sql = "INSERT INTO `$target_table` ($columns) VALUES ($values)";
+        // echo $sql;
         $conn->exec($sql);
       }
     }
 
     else if ($operation == "delete"){
         $values = implode(", ", $valueList);
-        $sql = "delete from `$target_table` where $idField in ($values)";
+        $sql = "delete from `$target_table` where $idName in ($values)";
         $conn->exec($sql);
 
         echo $valueList." deleted successfully";

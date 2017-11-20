@@ -11,6 +11,10 @@
     <link href="user-man.css" rel="stylesheet" type="text/css" />
 
     <script src="lib/jquery-3.2.1.min.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script> -->
+    <!-- <script src="lib/bootstrap.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
     <script src="mindmup-editabletable.js"></script>
     <script src="user-man-input.js"></script>
     <script src="table-sort.js"></script>
@@ -53,6 +57,7 @@
               <!-- <th onclick="columnSort(5)" value="0">Password</th> -->
               <th onclick="columnSort(6)" value="0">Contact Number</th>
               <th onclick="columnSort(7)" value="0">Position</th>
+              <th onclick="columnSort(8)" value="0">Gender</th>
               <th></th>
         </tr></thead>
          <tbody>
@@ -90,12 +95,12 @@ class TableRows extends RecursiveIteratorIterator {
 $servername="localhost";
 $username = "user1";
 $password = "123456";
-$dbname = "myDBPDO";
+$dbname = "Restaurant";
 
 try {
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $sql = "select ID, Fname, LName, Age, Username, `Contact Number`, Position from User";
+    $sql = "select StaffID, Firstname, LastName, Age, Username, `ContactNumber`, Position, Gender from staff";
     /*if is_null($limitRows){
       $sql = $sql." limit $limitRows;";
      } else {
@@ -147,9 +152,28 @@ $conn = null;
 <footer class="footer">
     <div class="container">
         <button class="btn btn-info" id="addBtn">Add User</button>
-        <button type="button" class="btn btn-primary" id="updateBtn">Update</button><br>
+        <button type="button" class="btn btn-primary" id="updateBtn">Update</button>
+        <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">dialog</button><br> -->
     </div>
 </footer>
+
+<div id="deleteModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Warning</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure to delete this row?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="OK" data-dismiss="modal">OK</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
 // $('#mainTable').editableTableWidget().numericInputExample().find('td:first').focus();
