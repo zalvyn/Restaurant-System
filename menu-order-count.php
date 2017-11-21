@@ -8,7 +8,7 @@
     <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <link href="menu-ordeer-count.css" rel="stylesheet" type="text/css" />
+    <link href="menu-order-count.css" rel="stylesheet" type="text/css" />
 
     <script src="lib/jquery-3.2.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
@@ -27,13 +27,13 @@ $dateRange = $_SESSION["dateRange"];
 $startDate = $dateRange[0]."-".$dateRange[1]."-".$dateRange[2];
 $endDate = $dateRange[3]."-".$dateRange[4]."-".$dateRange[5];
 
-echo "<p>$startDate - $endDate</p>";
+echo "<p class='date'>Time range: <span class='text-primary'>$startDate</span> - <span class='text-success'>$endDate</span></p>";
 ?>
 
 <header>
   <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <a class="navbar-brand mr-auto" href="index.php">Back</a>
-    <button type="button" class="btn btn-warning"><img src="icon/log-out.svg"> Logout </button>
+    <!-- <a class="navbar-brand mr-auto" href="index.php">Back</a> -->
+    <button type="button" class="btn btn-warning" onclick="window.open('order-graph.php','_blank')">View As Graph</button>
   </nav>
 </header>
 
@@ -132,5 +132,11 @@ $conn = null;
 </div>
 -->
 <!-- <script type='text/javascript'>calcTotal();</script> -->
+
+<script>
+  
+
+</script>
+
 </body>
 </html>

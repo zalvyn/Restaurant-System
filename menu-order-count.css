@@ -1,0 +1,90 @@
+h2 {
+  margin-top: 90px;
+	margin-bottom: 20px;
+	width: 100%;
+	text-align: center;
+}
+
+body .container .hero-unit #mainTable thead tr th #asc {
+	width: 30px;
+	height: 30px;
+	/*visibility: hidden;*/
+}
+
+/*@media (min-width: 900px) {
+  .container {
+    min-width: 900px;
+  }
+}*/
+
+.btn {
+  cursor: pointer;
+}
+
+/*#mainTable thead th, #mainTable tbody td {
+  width: 25%;
+}*/
+#mainTable td + td, #mainTable th + th {
+	text-align: right;
+}
+#mainTable thead tr th {
+  cursor: pointer;
+}
+#mainTable td {
+	vertical-align: middle;
+	padding-top: 0;
+	padding-bottom: 0;
+}
+#mainTable {
+  margin-bottom: 70px;
+}
+
+/*#search {
+	margin-right: 10px;
+}*/
+/*@media (max-width: 576px) {
+	#search {
+		width: 200px;
+	}
+}*/
+
+header nav > button {
+  margin-left: 30px;
+}
+
+body > .container {
+  /*padding: 20px 15px 0;*/
+  padding: 0;
+}
+
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+.show {display:block;}
+
+.date {
+  font-size: 25px;
+  margin-left: 70px;
+}
+.date span{
+  padding: 0px 10px;
+}
+
+/*
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+  
+  background-color: #f5f5f5;
+}
+
+footer > .container {
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+footer .stat-group {
+  bottom: 5px;
+  position: absolute;
+}*/
+
