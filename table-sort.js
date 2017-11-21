@@ -14,7 +14,7 @@ function columnSort(n){
             dir = "asc";
             $("#mainTable thead tr th").attr("value","0");
             ref.attr("value",1);
-            ref.value()
+            // ref.val()
             // ref.add("<img width='30px' height='30px' src='icon/arrow-up.svg'>");
             // icon.attr("src","icon/arrow-up.svg");
             // icon.css({"display","inline"});

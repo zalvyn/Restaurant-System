@@ -29,7 +29,8 @@
     <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
   </form>
 
-<a href="user-management.php">User Management</button>
+  <a href="user-management.php">User Management</button>
+<a href="report.php">Report</button>
 
 </div>
 </body>

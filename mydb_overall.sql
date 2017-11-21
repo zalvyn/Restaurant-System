@@ -98,49 +98,56 @@ CREATE TABLE `order` (
 
 -- insert data --
 
-LOAD DATA LOCAL INFILE '~/Downloads/staff.csv'
+LOAD DATA LOCAL INFILE '~/Documents/Lecture Notes/Database/Project/staff.csv'
 INTO TABLE `staff`
 FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
 
-LOAD DATA LOCAL INFILE '~/Downloads/table.csv'
+LOAD DATA LOCAL INFILE '~/Documents/Lecture Notes/Database/Project/table.csv'
 INTO TABLE `table`
 FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
 
-LOAD DATA LOCAL INFILE '~/Downloads/menu.csv'
+LOAD DATA LOCAL INFILE '~/Documents/Lecture Notes/Database/Project/menu.csv'
 INTO TABLE `menu`
 FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
 
-LOAD DATA LOCAL INFILE '~/Downloads/report.csv'
+LOAD DATA LOCAL INFILE '~/Documents/Lecture Notes/Database/Project/report.csv'
 INTO TABLE `report`
 FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
 
-LOAD DATA LOCAL INFILE '~/Downloads/masterorder.csv'
+LOAD DATA LOCAL INFILE '~/Documents/Lecture Notes/Database/Project/masterorder.csv'
 INTO TABLE `masterorder`
 FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
 
-LOAD DATA LOCAL INFILE '~/Downloads/order.csv'
+LOAD DATA LOCAL INFILE '~/Documents/Lecture Notes/Database/Project/order.csv'
 INTO TABLE `order`
 FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
 
-
+-- force delete old data --
+SET foreign_key_checks = 0;
+DELETE FROM `report`;
+ALTER TABLE `report` AUTO_INCREMENT = 1;
+DELETE FROM `masterorder`;
+ALTER TABLE `masterorder` AUTO_INCREMENT = 1;
+DELETE FROM `order`;
+ALTER TABLE `order` AUTO_INCREMENT = 1;
 
 
 

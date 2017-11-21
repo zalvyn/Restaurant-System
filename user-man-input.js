@@ -54,7 +54,7 @@ $.fn.numericInputExample = function () {
 };
 
 $(document).ready(function(){
-	
+
 	// filter words
 	$("header nav form #search").on("keyup", function(){
 		var value = $(this).val().toLowerCase();
@@ -64,8 +64,8 @@ $(document).ready(function(){
 			$(this).toggle($(this).find('td:nth-child(5)').text().toLowerCase().indexOf(value) > -1);
 		});
 	});
-	
-	
+
+
 	// update row
 	$("#updateBtn").click(function(){
 		var asso = {}, valueList=[], updateData=[], layer2=[], header=[], index=1, updateRowNo=[], match_insert=[];
@@ -155,7 +155,7 @@ $(document).ready(function(){
 		}).fail(function(xhr, status, error){
 			alert(error);
 		});
-	
+	});
 		// $('#mainTable').editableTableWidget().numericInputExample();
 	// });
 
@@ -199,7 +199,7 @@ $(document).ready(function(){
 			});
 		});
 	});
-	
+
 	/** change password **/
 	$(".keyBtn").click(function(){
 		// console.log($(this).parent().parent().text());
@@ -226,7 +226,6 @@ $(document).ready(function(){
 	});
 	
 
-	});
 });
 
 function GoHome(link){

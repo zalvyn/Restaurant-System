@@ -35,10 +35,10 @@ try {
 
     } else if ($operation=="insertEmpty"){
         $sql = "INSERT INTO `$target_table` (`$idName`) VALUES (NULL)";
-        echo $sql;
+        // echo $sql;
         $conn->exec($sql);
 
-        echo $valueList." success insert";
+        // echo $valueList." success insert";
 
     } else if ($operation=="insert"){
 
@@ -57,7 +57,7 @@ try {
         $sql = "delete from `$target_table` where $idName in ($values)";
         $conn->exec($sql);
 
-        echo $valueList." deleted successfully";
+        // echo $valueList." deleted successfully";
     }
 
 } catch (PDOException $e){

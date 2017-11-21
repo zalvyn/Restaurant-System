@@ -54,10 +54,9 @@
               <th onclick="columnSort(2)" value="0">Lastname</th>
               <th onclick="columnSort(3)" value="0">Age</th>
               <th onclick="columnSort(4)" value="0">Username</th>
-              <!-- <th onclick="columnSort(5)" value="0">Password</th> -->
-              <th onclick="columnSort(6)" value="0">Contact Number</th>
-              <th onclick="columnSort(7)" value="0">Position</th>
-              <th onclick="columnSort(8)" value="0">Gender</th>
+              <th onclick="columnSort(5)" value="0">Contact Number</th>
+              <th onclick="columnSort(6)" value="0">Position</th>
+              <th onclick="columnSort(7)" value="0">Gender</th>
               <th></th>
         </tr></thead>
          <tbody>
