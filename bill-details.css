@@ -1,0 +1,14 @@
+.bill-file {
+  cursor: pointer;
+}
+
+.info {
+  margin-left: 5%;
+  font-size: 20px;
+}
+
+@media (min-width: 900px) {
+  .info {
+    margin-left: 20%;
+  }
+}

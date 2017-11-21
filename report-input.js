@@ -72,7 +72,7 @@ $(document).ready(function(){
 		if (!event.target.matches('.dropbtn')) {
 			$(".dropdown-content").hide();
 	}};
-	
+
 	$("#time-filter").click(function(){
 		refreshPage();
 	});
@@ -88,7 +88,7 @@ $(document).ready(function(){
 		$("#operation-code").text('3');
 		refreshPage();
 	});
-	
+
 	$("#viewOrderBtn").click(function(){
 		$.ajax({
 			type: "POST",
@@ -99,6 +99,27 @@ $(document).ready(function(){
 				window.open(url,"_blank");
 				// alert("You have successfully added.");
 				// refreshTable();
+			}
+		}).fail(function(xhr, status, error){
+			alert(error);
+		});
+	});
+
+	// view detailed daily bills
+	$(".bill-file").click(function showBills(){
+		var thisrow = $(this).parent();
+		var reportID = thisrow.find("td").first().text();
+		var billDate = thisrow.find("td:nth-child(4)").text();
+		// console.log(thisrow.text());
+		console.log(reportID);
+
+		$.ajax({
+			type: "POST",
+			url: "save_session.php",
+			data: {"name": ["reportID","billDate"] , "value":[reportID,billDate] },
+			success: function(data, txt, jqxhr){
+				url = 'bill-details.php';
+				window.open(url,"_blank");
 			}
 		}).fail(function(xhr, status, error){
 			alert(error);
@@ -144,6 +165,8 @@ function showDropdown(n){
 			break;
 	}
 }
+
+
 
 // Close the dropdown menu if the user clicks outside of it
 function GoHome(link){

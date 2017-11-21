@@ -37,7 +37,7 @@
     <button type="button" class="btn btn-warning"><img src="icon/log-out.svg"> Logout </button>
   </nav>
 </header>
-<?php 
+<?php
 $dateRange = $_GET["dr"];
 $operation = $_GET["op"];
 if ($operation=="1"){
@@ -127,24 +127,25 @@ $_SESSION["dateRange"] = $dateRange;
   <div class="hero-unit">
      <table id="mainTable" class="table table-striped">
        <thead><tr>
-       <?php 
-       
+       <?php
+
        if ($operation=="1"){
          echo "
          <th onclick='columnSort(0)' value='0'>Report ID</th>
-         <th onclick='columnSort(1)' value='0'>Count</th>
+         <th onclick='columnSort(1)' value='0'>Bill Count</th>
          <th onclick='columnSort(2)' value='0'>Income($)</th>
          <th onclick='columnSort(3)' value='0'>Date</th>
-         <th onclick='columnSort(4)' value='0'>Staff ID</th>";
+         <th onclick='columnSort(4)' value='0'>Staff ID</th>
+         <th></th>";
        } elseif($operation=="2"){
          echo "
-         <th onclick='columnSort(0)' value='0'>Count</th>
+         <th onclick='columnSort(0)' value='0'>Bill Count</th>
          <th onclick='columnSort(1)' value='0'>Income($)</th>
          <th onclick='columnSort(2)' value='0'>Month</th>
          <th onclick='columnSort(3)' value='0'>Year</th>";
        } elseif ($operation=="3") {
          echo "
-         <th onclick='columnSort(0)' value='0'>Count</th>
+         <th onclick='columnSort(0)' value='0'>Bill Count</th>
          <th onclick='columnSort(1)' value='0'>Income($)</th>
          <th onclick='columnSort(2)' value='0'>Year</th>";
        }
@@ -181,7 +182,11 @@ class TableRows extends RecursiveIteratorIterator {
         echo "<tr>";
     }
     function endChildren(){
-        echo "</tr>\n";
+      global $operation;
+      if ($operation=="1"){
+        echo "<td class='bill-file'><img src='icon/file.png'/></td>";
+      }
+        echo "</tr>";
     }
 }
 

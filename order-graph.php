@@ -2,16 +2,16 @@
 <html leng='en'>
 <head>
 	<meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, shrink-to-fit=no">
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, shrink-to-fit=yes"> -->
   <title>Order Graph</title>
 	<!-- <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script> -->
   <script src="lib/jquery-3.2.1.min.js"></script>
 	<script src="lib/Chart.js"></script>
 	<script src="lib/Chart.PieceLabel.js"></script>
-  
+
   <script>
   function drawGraph(oriValues, oriLabels){
-    
+
     var backgroundPlatte = ['rgba(255, 99, 132, 0.2)','rgba(54, 162, 235, 0.2)','rgba(255, 206, 86, 0.2)','rgba(75, 192, 192, 0.2)','rgba(153, 102, 255, 0.2)','rgba(255, 159, 64, 0.2)'];
     var borderPlatte = ['rgba(255,99,132,1)','rgba(54, 162, 235, 1)','rgba(255, 206, 86, 1)','rgba(75, 192, 192, 1)','rgba(153, 102, 255, 1)','rgba(255, 159, 64, 1)'];
     var values = oriValues.map(function(item){
@@ -20,10 +20,10 @@
     var valueCount = values.length;
     var background = backgroundPlatte.slice(0,valueCount);
     var border = borderPlatte.slice(0,valueCount);
-    
+
     // console.log('label:'+oriLabels);
     // console.log('back:'+background);
-    
+
     var ctx = $("#myChart");
     var myChart = new Chart(ctx, {
       type: 'pie',
@@ -50,12 +50,22 @@
   }
   </script>
 
+	<style>
+		canvas {
+			width: auto;
+			height: 100vh;
+		}
+
+	</style>
+
 </head>
 <body>
 
-<canvas id="myChart" width="400" height="400"></canvas>
+<div class="container">
+	<canvas id="myChart" width="200" height="200"></canvas>
+</div>
 
-<?php 
+<?php
 session_start();
 
 $servername = "localhost";
@@ -70,7 +80,7 @@ $endDate = $dateRange[3]."-".$dateRange[4]."-".$dateRange[5];
 try {
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    
+
     $sql = "SELECT menu.Category , count(menu.Category) as `count`
         FROM `order`,masterorder, menu
         where `order`.masterorderID=masterorder.MasterOrderID and
@@ -100,6 +110,10 @@ $conn = null;
 
 ?>
 
+<script>
+// resize canvas to 100%
+	$("canvas").css({width: '', height: ''});
+</script>
 
 </body>
 </html>
