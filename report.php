@@ -37,7 +37,20 @@
     <button type="button" class="btn btn-warning"><img src="icon/log-out.svg"> Logout </button>
   </nav>
 </header>
-<h2>Daily Report</h2>
+<?php 
+$dateRange = $_GET["dr"];
+$operation = $_GET["op"];
+if ($operation=="1"){
+  echo "<h2>Daily Report</h2>";
+} elseif ($operation=="2"){
+  echo "<h2>Monthly Report</h2>";
+} elseif ($operation=="3"){
+  echo "<h2>Yearly Report</h2>";
+}
+
+session_start();
+$_SESSION["dateRange"] = $dateRange;
+ ?>
 <!-- Time range show -->
 <div class="time-range" id="time-range">
   <div class="dropdown">
@@ -74,6 +87,7 @@
   <div class="dropdown">
    <button onclick="showDropdown(4)" class="dropbtn dropdown-toggle btn btn-primary" id="endYear">Year</button>
    <div id="endYearList" class="dropdown-content">
+     <a>2018</a>
      <a>2017</a>
      <a>2016</a>
      <a>2015</a>
@@ -105,26 +119,37 @@
   <div class="btn-group" id="timeMode">
     <button type="button" class="btn btn-danger" id="dayMode">Day</button>
     <button type="button" class="btn btn-info" id="monthMode">Month</button>
-    <button type="button" class="btn btn-warning" id="YearMode">Year</button>
+    <button type="button" class="btn btn-warning" id="yearMode">Year</button>
   </div>
 </div>
 
 <div class="container">
   <div class="hero-unit">
      <table id="mainTable" class="table table-striped">
-         <!-- <thead><tr>
-             <th onclick="columnSort(0)" value="0">Report ID</th>
-              <th onclick="columnSort(1)" value="0">Count</th>
-              <th onclick="columnSort(2)" value="0">Income($)</th>
-              <th onclick="columnSort(3)" value="0">Date</th>
-              <th onclick="columnSort(4)" value="0">Staff ID</th>
-        </tr></thead> -->
-        <thead><tr>
-             <th onclick="columnSort(0)" value="0">Count</th>
-             <th onclick="columnSort(1)" value="0">Income($)</th>
-             <th onclick="columnSort(2)" value="0">Month</th>
-             <th onclick="columnSort(3)" value="0">Year</th>
-       </tr></thead>
+       <thead><tr>
+       <?php 
+       
+       if ($operation=="1"){
+         echo "
+         <th onclick='columnSort(0)' value='0'>Report ID</th>
+         <th onclick='columnSort(1)' value='0'>Count</th>
+         <th onclick='columnSort(2)' value='0'>Income($)</th>
+         <th onclick='columnSort(3)' value='0'>Date</th>
+         <th onclick='columnSort(4)' value='0'>Staff ID</th>";
+       } elseif($operation=="2"){
+         echo "
+         <th onclick='columnSort(0)' value='0'>Count</th>
+         <th onclick='columnSort(1)' value='0'>Income($)</th>
+         <th onclick='columnSort(2)' value='0'>Month</th>
+         <th onclick='columnSort(3)' value='0'>Year</th>";
+       } elseif ($operation=="3") {
+         echo "
+         <th onclick='columnSort(0)' value='0'>Count</th>
+         <th onclick='columnSort(1)' value='0'>Income($)</th>
+         <th onclick='columnSort(2)' value='0'>Year</th>";
+       }
+        ?>
+        </tr></thead>
          <tbody>
 <?php
 // ini_set('display_errors', 1);
@@ -134,7 +159,7 @@
 // phpinfo();
 // $limitRows = $_POST["limitRows"];
 // $dateRange = $_POST["dateRange"];
-$dateRange = $_GET["dr"];
+
 
 class TableRows extends RecursiveIteratorIterator {
     // private static $index=0;
@@ -168,17 +193,25 @@ $dbname = "Restaurant";
 try {
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    if (is_null($dateRange)){
-      $dateRange = array(2017,10,1,2018,5,3);
-    }
+    // if (is_null($dateRange)){
+    //   $dateRange = array(2017,10,1,2018,5,3);
+    // }
     echo "<script type='text/javascript'>$('body').reportInit(".json_encode($dateRange).");</script>";
+    echo "<p id='operation-code' style='display:none'>$operation</p>";
     $startDate = $dateRange[0]."-".$dateRange[1]."-".$dateRange[2];
     $endDate = $dateRange[3]."-".$dateRange[4]."-".$dateRange[5];
-    // $sql = "select ReportID, Count, Income, Date, StaffID from report limit $limitRows";
-    $sql = "select SUM(`Count`), SUM(Income), month(date),year(date) from report
-            where date<='$endDate' and date>='$startDate'
-            group by year(date),month(date);";
-
+    if ($operation=="1"){
+      $sql = "select ReportID, Count, Income, Date, StaffID from report
+            where date<='$endDate' and date>='$startDate'";
+    } elseif ($operation=="2"){
+      $sql = "select SUM(`Count`), SUM(Income), month(date),year(date) from report
+              where date<='$endDate' and date>='$startDate'
+              group by year(date),month(date);";
+    } elseif($operation=="3"){
+      $sql = "select SUM(`Count`), SUM(Income),year(date) from report
+              where date<='$endDate' and date>='$startDate'
+              group by year(date);";
+    }
     // echo $sql;
 
     // dynamic filter by field
@@ -199,8 +232,6 @@ try {
         echo $v;
     }
 
-    // echo "success";
-
 } catch (PDOException $e){
     echo $e->getMessage();
 }
@@ -209,26 +240,15 @@ $conn = null;
 
 ?>
 </tbody>
-<!-- <tfoot><tr><th><strong>TOTAL</strong></th><th></th><th></th><th></th></tr></thead> -->
 </table>
 </div>
 </div>
-<!-- <button type="button" id="updateBtn">Update</button><br> -->
-<!-- <button type="button" id="addBtn">Add Row</button><br> -->
-<!-- <button type="button" id="delBtn">Delete Row</button> -->
-
-<datalist id="productName">
-    <option value="Drink">Drink</option>
-    <option value="Sides">Sides</option>
-    <option value="Noodle">Noodle</option>
-</datalist>
-
 
 <footer class="footer">
     <div class="container">
-        <div class="card-block" id="total-stat">
-          <p id="bills"></p>
-          <p id="income"></p>
+        <div class="stat-group">
+          <span class="stat text-primary">Total Number of Bills: <b><span id="billTotal"></span></b></span><br>
+          <span class="stat text-success">Total Income: <b><span id="incomeTotal"></span></b></span>
         </div>
         <button type="button" class="btn btn-primary" id="viewOrderBtn">View order count</button>
     </div>
@@ -251,26 +271,7 @@ $conn = null;
     </div>
   </div>
 </div>
-
-<div id="passwordModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">New Password</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-      </div>
-      <div class="modal-body">
-        <label for="pwd">Please enter new password:</label>
-        <input type="password" class="form-control no_focus" id="pwd">
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" id="OK" data-dismiss="modal">OK</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-      </div>
-    </div>
-  </div>
-</div> -->
-
-
+-->
+<script type='text/javascript'>calcTotal();</script>
 </body>
 </html>

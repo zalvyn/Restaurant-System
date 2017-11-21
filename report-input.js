@@ -8,6 +8,16 @@ $.fn.reportInit = function(data){
 	$("#endDay").text(data[5]);
 };
 
+function calcTotal(){
+	var row = $("#mainTable tbody tr").length;
+	var total = 0;
+	$("#mainTable tr td:nth-child(3)").each(function(){
+		total += Number($(this).text());
+	});
+	$("#billTotal").text(row);
+	$("#incomeTotal").text('$'+total);
+}
+
 $(document).ready(function(){
 
 	// filter words
@@ -62,27 +72,54 @@ $(document).ready(function(){
 		if (!event.target.matches('.dropbtn')) {
 			$(".dropdown-content").hide();
 	}};
-
+	
 	$("#time-filter").click(function(){
-		var dr = [$("#startYear").text(),$("#startMonth").text(),$("#startDay").text(),$("#endYear").text(),$("#endMonth").text(),$("#endDay").text()];
-		console.log(dr);
+		refreshPage();
+	});
+	$("#dayMode").click(function(){
+		$("#operation-code").text('1');
+		refreshPage();
+	});
+	$("#monthMode").click(function(){
+		$("#operation-code").text('2');
+		refreshPage();
+	});
+	$("#yearMode").click(function(){
+		$("#operation-code").text('3');
+		refreshPage();
+	});
+	
+	$("#viewOrderBtn").click(function(){
 		$.ajax({
-			type: "GET",
-			url: "report.php",
-			// data: { "dateRange": dateRange},
-			// data: dateRange,
-			success: function(){
-				// alert(data);
-				// location.reload();
-				window.location.href = 'report.php?dr[]='+dr[0]+'&dr[]='+dr[1]+'&dr[]='+dr[2]+'&dr[]='+dr[3]+'&dr[]='+dr[4]+'&dr[]='+dr[5];
+			type: "POST",
+			url: "menu-order-count.php",
+			data: {"dr": [$("#startYear").text(),$("#startMonth").text(),$("#startDay").text(),$("#endYear").text(),$("#endMonth").text(),$("#endDay").text()] },
+			success: function(data, txt, jqxhr){
+				url = 'menu-order-count.php';
+				window.open(url,"_blank");
+				// alert("You have successfully added.");
+				// refreshTable();
 			}
 		}).fail(function(xhr, status, error){
 			alert(error);
 		});
-
 	});
 
 });
+
+function refreshPage(){
+	var dr = [$("#startYear").text(),$("#startMonth").text(),$("#startDay").text(),$("#endYear").text(),$("#endMonth").text(),$("#endDay").text()];
+	var op = $("#operation-code").text();
+	// console.log(dr);
+	// $.ajax({
+	// 	type: "GET",
+	// 	url: "report.php",
+	// 	success: function(){
+	// 		window.location.href = 'report.php?dr[]='+dr[0]+'&dr[]='+dr[1]+'&dr[]='+dr[2]+'&dr[]='+dr[3]+'&dr[]='+dr[4]+'&dr[]='+dr[5]+'&op='+op;
+	// 	}
+	// });
+	window.location.href = 'report.php?dr[]='+dr[0]+'&dr[]='+dr[1]+'&dr[]='+dr[2]+'&dr[]='+dr[3]+'&dr[]='+dr[4]+'&dr[]='+dr[5]+'&op='+op;
+}
 
 function showDropdown(n){
 	$(".dropdown-content").hide();
