@@ -18,14 +18,13 @@ session_start();
     <script src="lib/jquery-3.2.1.min.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Custom styles for this template -->
-    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.js"></script>
-
+	
     <link href="user-man.css" rel="stylesheet" type="text/css" />
 	<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-	<!-- <script src="jquery.dataTables.min.js"></script> -->
+	<script src="jquery.dataTables.min.js"></script>
      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="mindmup-editabletable.js"></script>
-    <!-- <script src="numeric-input-example.js"></script> -->
+    <script src="numeric-input-example.js"></script>
     <script src="table-sort.js"></script>
     
 	<style>
@@ -41,10 +40,12 @@ session_start();
 					  border-radius: 30px;
 					  
 		}
-		.btn-primary h1{
-		
+		.btn-info {
+			
+					width:100%;
 					
-					}
+			
+		}
 		.icon-bar {
    				 width: 100px;
    				 background-color: #555;
@@ -105,11 +106,7 @@ session_start();
     <div class="container-fluid">
 		<!-- Menu table -->	
 		<br>
-		<form class="form-inline">
-			<div class="form-group">
-			<input type="tableID" class="form-control mr-sm-2 no_focus" type="text" placeholder="Table No." required >
-			</div>
-		</form>
+		
 		<br>
 		<div class="row  justify-content-md-center">
 			<div class="col-sm-7">
@@ -127,9 +124,9 @@ session_start();
 						<?php
 								
 								$servername = "localhost";
-								$username = "user1";
-								$password = "123456";
-								$dbname = "Restaurant";
+								$username = "abc";
+								$password = "abc";
+								$dbname = "restaurant";
 
 								// Create connection
 								$conn = new mysqli($servername,$username,$password,$dbname);
@@ -160,7 +157,7 @@ session_start();
         <div class="col-sm-3" >
 		
             <br>
-            <a class="btn btn-primary" id="button1"><h1 class="my-3">Burger</h1></a>
+            <a class="btn btn-primary" id="button1"><h3 class="my-3">Burger</h3></a>
             <br>
 		
 		</div>
@@ -169,7 +166,7 @@ session_start();
 	<div class="row">
 		<div class="col-sm-3">
 			<br>
-            <a class="btn btn-primary" id="button2"><h1 class="my-3">Pizza</h1></a>
+            <a class="btn btn-primary" id="button2"><h3 class="my-3">Pizza</h3></a>
             <br>
 		</div>
     </div>   
@@ -177,7 +174,7 @@ session_start();
         <div class="col-sm-3">
 		
             <br>
-            <a class="btn btn-primary" id="button3"><h1 class="my-3">Chicken</h1></a>
+            <a class="btn btn-primary" id="button3"><h3 class="my-3">Chicken</h3></a>
             <br>
 		</div>
 	</div>
@@ -185,7 +182,7 @@ session_start();
         <div class="col-sm-3">
 		
             <br>
-            <a class="btn btn-primary" id="button4"><h1 class="my-3">Sides</h1></a>
+            <a class="btn btn-primary" id="button4"><h3 class="my-3">Sides</h3></a>
             <br>
 		</div>
 	</div>
@@ -193,7 +190,7 @@ session_start();
         <div class="col-sm-3">
 		
             <br>
-            <a class="btn btn-primary" id="button5"><h1 class="my-3">Drinks</h1></a>
+            <a class="btn btn-primary" id="button5"><h3 class="my-3">Drinks</h3></a>
             <br>
 			<br>
 		</div>
@@ -202,7 +199,7 @@ session_start();
         <div class="col-sm-3">
 		
             <br>
-            <a class="btn btn-primary" id="button6"><h1 class="my-3">Dessert</h1></a>
+            <a class="btn btn-primary" id="button6"><h3 class="my-3">Dessert</h3></a>
             <br>
 			<br>
 		</div>
@@ -210,28 +207,31 @@ session_start();
 	<!-- Order List -->
 		<div class="row">
 		
-		<div class="col-4">
+		<div class="col-lg-6">
 			<div class="card" id="order-list">
 				<div class="card-header"><h4>Order List</h4></div>
 				<!-- Insert ordered items -->
 				
-				<form action="action.php" method="POST">
+				<form class="form-inline" action="./action.php" method="POST">
 				<div class="card-block">
-				
+					<input type="tableID" class="form-control" type="text" placeholder="Table No." name="tableid" required >
 					<!--<input type="hidden" name="foodid"/>-->
 					<input type="hidden" name="foodname"/>
 					<input type="hidden" name="price"/>
-					<input type= "submit" class="btn btn-info col-4" name="save"></a>
+					
 				
 				</div>
-					
-				</form>
-			
+				
 				<div class="card-footer">
 					<div class="text-muted"><h4>Total</h4></div>
-					<div id="total"></div>					
+					<div id="total"></div>	
+					
+								
 				</div>
+				
 			</div>
+			<input type= "submit" class="btn btn-info" name="save"></a>	
+				</form>
 		</div>
 		</div>
 	
@@ -241,6 +241,9 @@ session_start();
 		//Search bar
 		$(document).ready(function () {
 			var table = $('.table').DataTable();
+			
+			
+				
 		});	
 		
 		//Sidebar (onprogress)
@@ -304,11 +307,26 @@ session_start();
 			return $(this).text();
 		}).get();
 			$('#order-list .card-block').append('<p class="row" name="'+ '"></p>')+
-			$('#order-list .card-block p:last-child').append('<span class="col-6" name="foodname"> ' + tableData[1]+ '</span><input class="col" name="foodid[]" value='+ tableData[0]+'readonly'+'>' +'<span class="col" name="price">$' + Number(tableData[2])+'</span>');
-		
-	
+			$('#order-list .card-block p:last-child').append('<span class="col-6" name="foodname"> ' + tableData[1]+ '</span><input class="col" name="foodid[]" value='+ tableData[0]+'readonly'+'>' +'<input class="col" name="price[]" value='+ Number(tableData[2])+'>');
+			var sum = 0;
+			
+			$("input[name ='price']").each(function(){
+					sum += Number($(this).text().substring(1));
+					console.log('sum: ' + sum);
+					$('#total').text('$' + sum.toFixed(2));
+			});
 			
 		});
+			
+			;
+			
+			//$('.price').each(function() {
+			//sum +=  Number($(this).text().substring(1));
+			//console.log('sum: ' + sum);
+			
+	
+			
+		
 		
 		//set form
 		
