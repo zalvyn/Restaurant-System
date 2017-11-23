@@ -157,12 +157,12 @@
 			</div>
 		</div>
 		
-		<form class="form-inline">
+		<form class="form-inline" action="./calltotal.php" METHOD="POST">
 			<div class="form-group">
 				 <h4>Total: </h4>
 			 
-				<input type="total" class="form-control mr-sm-2 no_focus" type="text" id="total" readonly></div>
-			
+				<input type="total" class="form-control mr-sm-2 no_focus" type="text" name="total" id="total" readonly></div>
+		</form>
 			<div class="form-group">
 				 <h4>Customer Paid: </h4>
 			 
@@ -173,10 +173,7 @@
 			 
 				<input type="change" class="form-control mr-sm-2 no_focus" type="text" id="change" readonly></div>
 				
-			
-			
-		</form>
-		
+	
 		<div class="row">
 			<div class="col-sm-3">
 				<br>
@@ -216,7 +213,36 @@
 						$("#change").val(change);
 					}			
 				});
+			
+
+			//calculate total
 				
+				 $(document).on( "click","#total",function(e) {
+						e.preventDefault();
+						/* var test = 0;
+						test = $("#orderno").val();
+						 */
+						$.ajax({
+						type     : "POST",
+						cache    : true,
+						url      : "caltotal.php",
+						data     : $("#orderno").val(),
+						success  : function(data) {
+							
+							alert(data);
+							/* $("#total").empty();
+							$("#total").append(data); */
+						}
+									
+
+				
+						});
+					
+					
+					
+				});
+
+					
 			//Search Order Number
 				
 				 $(document).on( "keypress","#orderno",function(e) {
