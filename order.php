@@ -139,7 +139,7 @@
 									die("Connection failed: " . $conn->connect_error);
 								} 
 
-								$sql = "SELECT orderid, quantity, masterorderid, foodid, price FROM `order`";
+								$sql = "SELECT orderid, quantity, masterorderid, foodid, price FROM `order` LIMIT 10";
 								$result = $conn->query($sql);
 
 								if ($result->num_rows > 0) {

@@ -79,6 +79,10 @@ session_start();
 				font-size:25px;
 		}
 		
+		.test{
+			
+			
+		}
 		
       @media (min-width: 992px) {
         body {
@@ -117,7 +121,7 @@ session_start();
 					  <th>Food Name</th>
 					  <th>Price ($)</th>
 					  <th>Quantity</th>
-					  
+					  <th class="test">Category</th>
 					</tr>
 				  </thead>
 				  <tbody id="menu">
@@ -135,13 +139,13 @@ session_start();
 									die("Connection failed: " . $conn->connect_error);
 								} 
 
-								$sql = "SELECT FoodID, FoodName, Price, Quantity FROM menu";
+								$sql = "SELECT FoodID, FoodName, Price, Quantity, Category FROM menu";
 								$result = $conn->query($sql);
 
 								if ($result->num_rows > 0) {
 									// output data of each row
 									while($row = $result->fetch_assoc()) {
-											echo "<tr> <td>{$row["FoodID"]} </td><td>{$row["FoodName"]}</td><td>{$row["Price"]}</td><td>{$row["Quantity"]}</td></tr>";
+											echo '<tr> <td>'.$row['FoodID'].'</td><td>'.$row["FoodName"].'</td><td>'.$row["Price"].'</td><td>'.$row["Quantity"].'</td><td>'.$row["Category"].'</td></tr>';
 									}
 								} else {
 									echo "0 results";
@@ -238,66 +242,36 @@ session_start();
     </div>
 	
 	<script>
-		//Search bar
+		//Search bar AND Side bar
 		$(document).ready(function () {
 			var table = $('.table').DataTable();
 			
-			
+			$('#button1').on('click',function(){
 				
+				table.search("Burger").draw();
+			});
+			$('#button2').on('click',function(){
+				
+				table.search("Pizza").draw();
+			});
+			$('#button3').on('click',function(){
+				
+				table.search("Chicken").draw();
+			});
+			$('#button4').on('click',function(){
+				
+				table.search("Sides").draw();
+			});
+			$('#button5').on('click',function(){
+				
+				table.search("Drinks").draw();
+			});
+			$('#button6').on('click',function(){
+				
+				table.search("Dessert").draw();
+			});
 		});	
 		
-		//Sidebar (onprogress)
-		$('#button1').on('click',function(){
-		
-			var tableRow = $("#menu td").filter(function() {
-			$(this).closest("tr").hide();
-			
-			if ( $(this).text() == "Burger") {
-				 $(this).closest("tr").toggle();
-				}
-			})				
-		});
-		$('#button2').on('click',function(){
-						
-			var tableRow = $("#menu td").filter(function() {
-			
-				for ( var d = 0; d  < 10; ++d){
-					
-					if ($(this).text() == "Pizza") {
-					$(this).closest("tr").show();
-					}
-				
-				}
-			})				
-		});
-		$('#button3').on('click',function(){	
-			var tableRow = $("#menu td").filter(function() {
-			if ( $(this).text() == "Chicken") {
-				$(this).closest("tr").toggle();
-				}
-			})				
-		});
-		$('#button4').on('click',function(){	
-			var tableRow = $("#menu td").filter(function() {
-			if ( $(this).text() == "Sides") {
-				$(this).closest("tr").toggle();
-				}
-			})				
-		});
-		$('#button5').on('click',function(){	
-			var tableRow = $("#menu td").filter(function() {
-			if ( $(this).text() == "Drinks") {
-				$(this).closest("tr").toggle();
-				}
-			})				
-		});
-		$('#button6').on('click',function(){	
-			var tableRow = $("#menu td").filter(function() {
-			if ( $(this).text() == "Dessert") {
-				$(this).closest("tr").toggle();
-				}
-			})				
-		});
 		
 		
 		//Mini-order summary
@@ -318,17 +292,12 @@ session_start();
 			
 		});
 			
-			;
+			
 			
 			//$('.price').each(function() {
 			//sum +=  Number($(this).text().substring(1));
 			//console.log('sum: ' + sum);
-			
 	
-			
-		
-		
-		//set form
 		
 			
 	
