@@ -1,6 +1,6 @@
 <?php
 								
-								
+								session_start();
 								$servername = "localhost";
 								$username = "abc";
 								$password = "abc";
@@ -8,29 +8,12 @@
 								
 								
 								
-								// Create connection
-								$conn = new mysqli($servername,$username,$password,$dbname);
-								// Check connection
-								if ($conn->connect_error) {
-									die("Connection failed: " . $conn->connect_error);
-								} 
-								$abc =$_POST['total'];
+								
+
 								
 								
-								print_r ($abc."<br>");
-								$sql = 'Select sum(price) 
-								from `masterorder` where masterorderid = ($abc)
-								grouped by "price"; ';
-								$result = $conn->query($sql);
+								$_SESSION["test"] = $_POST['orderno'];
 								
-								if ($result->num_rows > 0) {
-									// output data of each row
-									while($row = $result->fetch_assoc()) {
-											echo '$row["price"]';
-									}
-								} else {
-									echo "0 results";
-								}
 								//$sql .= "; ";
 								//$sql .= "INSERT INTO `order` (FoodID) VALUES ('$abc[1]')";
 								
@@ -50,5 +33,5 @@
 								//}unset($abc);
 								
 								
-								$conn->close();
+								header("Location: order.php");
 						?>
