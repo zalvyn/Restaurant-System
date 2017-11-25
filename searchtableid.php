@@ -8,7 +8,7 @@ $dbname = "restaurant";
 
 // $SESSION_["OrderID"] = "";
 // echo "orderno:".$SESSION["OrderID"];
-$_SESSION["tableID"] = $_POST['orderno1'];
+$_SESSION["tableID"] = $_POST['tableno'];
 // echo "orderno:".$_POST['orderno'];
 
 // $conn = new mysqli($servername,$username,$password,$dbname);
