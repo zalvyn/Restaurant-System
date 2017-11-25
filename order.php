@@ -49,13 +49,13 @@ session_start();
   <!-- <div class="form-group"> -->
     <!-- <input type="orderID" class="form-control mr-sm-2 no_focus" type="text" placeholder="Order No." name="orderno" id="orderno" value="1"> -->
   <!-- </div> -->
- 
+	<input type="submit" value="abc" />
 </form>
 
 <form class="form-inline top-info" action="./searchtableid.php" METHOD="POST">
   <div class="form-group">
     <input type="text" class="form-control mr-sm-2 no_focus" id="tableno" name="tableno">
-	<input type="submit" value="abc" />
+	<input type="submit" value="Submit" />
   </div>
 </form>
 
@@ -104,27 +104,27 @@ session_start();
 						}
 					}
         } else if (isset($_SESSION["tableID"])){
-			$sql = "SELECT price from `masteroder` where tableno=".$_SESSION["tableID"]." LIMIT 10 ;";
+			$sql = "SELECT price from `masterorder` where tableno='".$_SESSION["tableID"]."' LIMIT 10 ;";
 		  echo "ha";
 					$result = $conn->query($sql);
 
 					if ($result->num_rows > 0) {
 						  // output data of each row
 					 while($row = $result->fetch_assoc()) {
+						//echo "<tr> <td>{$row["orderid"]} </td><td>{$row["quantity"]}</td><td>{$row["masterorderid"]}</td><td>{$row["foodid"]}</td><td>{$row["price"]}</td></tr>";
 						echo "{$row["price"]}";
-						
 						//echo "<tr> <td>{$row["orderid"]} </td><td>{$row["quantity"]}</td><td>{$row["masterorderid"]}</td><td>{$row["foodid"]}</td><td>{$row["price"]}</td></tr>";
 						}
 					}
 		}else if (isset($_SESSION["test"])){
-			$sql = 'SELECT sum(price) from `masterorderid` where tableno='.$_SESSION["test"].'grouped by price';
+			$sql = 'SELECT sum(price) from `masterorder` where tableno='.$_SESSION["test"].'grouped by price';
 					$result = $conn->query($sql);
 
 					if ($result->num_rows > 0) {
 						  // output data of each row
 					 while($row = $result->fetch_assoc()) {
 						
-							echo "{$row["price"]}";
+							echo '<tr><td>'.$row["price"].'</td></tr>';
 						}
 					}
 		}else {
@@ -231,27 +231,9 @@ $(document).ready(function () {
       });
     }
   });
+});  
 //
-  //Search Table Number
-   $("#tableno").on("keypress",function(e) {
-     //e.preventDefault();
-	 var dat = $(this).val();
-    if (e.keyCode == 13) {
-      // e.preventDefault();
-      $.ajax({
-        type     : "POST",
-        //cache    : false,
-        url      : "searchtableid.php",
-        data     : {"orderno1": dat},
-        success  : function(data) {
-          //alert(data);
-          $("#order").empty();
-          $("#order").append("<tr>"+data+"</tr>");
-        }
-      });
-    }
-	});
-});
+  
 //
 // });
 </script>
