@@ -49,13 +49,13 @@ session_start();
   <!-- <div class="form-group"> -->
     <!-- <input type="orderID" class="form-control mr-sm-2 no_focus" type="text" placeholder="Order No." name="orderno" id="orderno" value="1"> -->
   <!-- </div> -->
-	<input type="submit" value="abc" />
+
 </form>
 
 <form class="form-inline top-info" action="./searchtableid.php" METHOD="POST">
   <div class="form-group">
-    <input type="text" class="form-control mr-sm-2 no_focus" id="tableno" name="tableno">
-	<input type="submit" value="Submit" />
+    <input type="text" class="form-control mr-sm-2 no_focus" id="tableno" name="orderno1">
+	<input type="submit" value="abc"/>
   </div>
 </form>
 
@@ -93,7 +93,7 @@ session_start();
         if (isset($_SESSION["OrderID"])) {
           $sql = "SELECT orderid, quantity, masterorderid, foodid, price FROM `order` where masterorderid=".$_SESSION["OrderID"]." LIMIT 10 ;";
           echo "yes!";
-		  
+
 					$result = $conn->query($sql);
 
 					if ($result->num_rows > 0) {
@@ -106,14 +106,15 @@ session_start();
         } else if (isset($_SESSION["tableID"])){
 			$sql = "SELECT price from `masterorder` where tableno='".$_SESSION["tableID"]."' LIMIT 10 ;";
 		  echo "ha";
+      // echo $sql;
 					$result = $conn->query($sql);
 
 					if ($result->num_rows > 0) {
 						  // output data of each row
 					 while($row = $result->fetch_assoc()) {
-						//echo "<tr> <td>{$row["orderid"]} </td><td>{$row["quantity"]}</td><td>{$row["masterorderid"]}</td><td>{$row["foodid"]}</td><td>{$row["price"]}</td></tr>";
-						echo "{$row["price"]}";
-						//echo "<tr> <td>{$row["orderid"]} </td><td>{$row["quantity"]}</td><td>{$row["masterorderid"]}</td><td>{$row["foodid"]}</td><td>{$row["price"]}</td></tr>";
+						// echo "{$row["price"]}";
+
+						echo "<tr> <td>{$row["orderid"]} </td><td>{$row["quantity"]}</td><td>{$row["masterorderid"]}</td><td>{$row["foodid"]}</td><td>{$row["price"]}</td></tr>";
 						}
 					}
 		}else if (isset($_SESSION["test"])){
@@ -123,18 +124,18 @@ session_start();
 					if ($result->num_rows > 0) {
 						  // output data of each row
 					 while($row = $result->fetch_assoc()) {
-						
-							echo '<tr><td>'.$row["price"].'</td></tr>';
+
+							echo "{$row["price"]}";
 						}
 					}
 		}else {
           $sql = "SELECT orderid, quantity, masterorderid, foodid, price FROM `order` LIMIT 10";
           echo "no!";
         }
-		
 
 
-        
+
+
         $conn->close();
         ?>
       </tbody>
@@ -210,7 +211,7 @@ $(document).ready(function () {
         }
       });
      });
-    
+
 
   //Search Order Number
   $("#orderno").on( "keypress",function(e) {
@@ -231,9 +232,28 @@ $(document).ready(function () {
       });
     }
   });
-});  
 //
-  
+  //Search Table Number
+  //  $("#tableno").on("keypress",function(e) {
+  //    //e.preventDefault();
+	//  var dat = $(this).val();
+  //   if (e.keyCode == 13) {
+  //     // e.preventDefault();
+  //     $.ajax({
+  //       type     : "POST",
+  //       //cache    : false,
+  //       url      : "searchtableid.php",
+  //       data     : {"orderno1": dat},
+  //       success  : function(data) {
+  //         //alert(data);
+  //         $("#order").empty();
+  //         $("#order").append("<tr>"+data+"</tr>");
+  //       }
+  //     });
+  //   }
+	// });
+
+});
 //
 // });
 </script>
